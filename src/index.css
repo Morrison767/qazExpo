@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-base text-ink-900 antialiased;
+  }
+
+  /* Цифры в интерфейсе всегда табличные: суммы и даты в колонках должны
+     выстраиваться по разрядам. Ключевое требование для реестров и отчётов. */
+  table,
+  input,
+  textarea,
+  select,
+  .tabular-context {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  ::selection {
+    @apply bg-navy-100 text-navy-900;
+  }
+
+  /* Тонкий холодный скроллбар — не отвлекает при долгой работе */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.ink.300') transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: theme('colors.ink.300');
+    background-clip: content-box;
+    border: 3px solid transparent;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: theme('colors.ink.400');
+    background-clip: content-box;
+  }
+
+  /* Нативный индикатор календаря приглушаем до уровня остальных иконок */
+  input[type='date']::-webkit-calendar-picker-indicator,
+  input[type='time']::-webkit-calendar-picker-indicator,
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.4;
+  }
+
+  input:hover::-webkit-calendar-picker-indicator,
+  input:focus::-webkit-calendar-picker-indicator {
+    opacity: 0.75;
+  }
+
+  /* Убираем стрелки у числовых полей — суммы вводятся с клавиатуры */
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer utilities {
+  /* Единое фокус-кольцо на весь интерфейс */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-300 focus-visible:ring-offset-1 focus-visible:ring-offset-white;
+  }
+
+  .focus-ring-inset {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-navy-400;
+  }
+
+  /* Табличные цифры точечно */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* Подложка «план выставочного зала» — для пустых состояний и заглушек.
+     Ненавязчивая отсылка к схемам павильонов. */
+  .floorplan-grid {
+    background-image:
+      linear-gradient(to right, rgba(27, 58, 107, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(27, 58, 107, 0.055) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .floorplan-grid-lg {
+    background-image:
+      linear-gradient(to right, rgba(27, 58, 107, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(27, 58, 107, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Штриховка «внимание» — единственный статус с паттерном (конфликт).
+     Пересечение брони должно кричать даже периферийным зрением и в ч/б печати. */
+  .hazard-stripes {
+    background-image: repeating-linear-gradient(
+      135deg,
+      currentColor 0 3px,
+      rgba(255, 255, 255, 0.55) 3px 6px
+    );
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
