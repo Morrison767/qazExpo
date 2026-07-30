@@ -2,7 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
 
-export default defineConfig({
+// GitHub Pages отдаёт проект из подпути /qazExpo/, локальный dev — из корня.
+const GH_PAGES_BASE = '/qazExpo/'
+
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? GH_PAGES_BASE : '/',
   plugins: [react()],
   resolve: {
     alias: {
@@ -13,4 +17,4 @@ export default defineConfig({
     port: 5173,
     open: '/design-system',
   },
-})
+}))
