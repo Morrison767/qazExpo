@@ -7,7 +7,7 @@ export function Section({ id, num, title, description, children }) {
   return (
     <section id={id} className="scroll-mt-4 border-b border-hairline pb-10 last:border-b-0">
       <header className="mb-5 flex items-start gap-3 pt-9">
-        <HallPlate tone="outline" size="lg" className="mt-1">
+        <HallPlate tone="beam" size="lg" className="mt-1">
           {num}
         </HallPlate>
         <div className="min-w-0">
@@ -27,7 +27,7 @@ export function DemoBlock({ title, note, children, className, bodyClassName, ton
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-md border border-hairline bg-white shadow-xs',
+        'overflow-hidden rounded-md border border-hairline bg-surface-raised shadow-card',
         className,
       )}
     >

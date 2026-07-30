@@ -224,6 +224,116 @@ export const EVENT_TYPES = [
   'Иное',
 ]
 
+/* ── Данные для инструментов ─────────────────────────────── */
+
+export const MONTHS = [
+  'янв',
+  'фев',
+  'мар',
+  'апр',
+  'май',
+  'июн',
+  'июл',
+  'авг',
+  'сен',
+  'окт',
+  'ноя',
+  'дек',
+]
+
+/** Мероприятий в месяц за 12 месяцев */
+export const TREND_EVENTS = [6, 8, 14, 11, 9, 5, 3, 4, 10, 16, 13, 11]
+
+/** Выручка по месяцам, млн ₸ */
+export const TREND_REVENUE = [42, 58, 126, 94, 71, 38, 22, 29, 88, 142, 118, 96]
+
+/** Дебиторская задолженность, млн ₸ */
+export const TREND_DEBT = [18, 22, 19, 31, 28, 34, 30, 26, 24, 29, 33, 26]
+
+/**
+ * Занятость залов по дням марта: статус на каждый день.
+ * null — свободно. Видно, что 15.03 по КЦ-Б2 идёт конфликт.
+ */
+export const HALL_OCCUPANCY = [
+  {
+    hall: 'КЦ-А1',
+    hint: '14 из 31 дня',
+    days: [
+      ...Array(11).fill(null),
+      ...Array(2).fill('review'),
+      ...Array(3).fill('confirmed'),
+      'done',
+      ...Array(6).fill(null),
+      ...Array(4).fill('confirmed'),
+      ...Array(4).fill(null),
+    ],
+  },
+  {
+    hall: 'КЦ-Б2',
+    hint: '6 из 31 дня · 1 конфликт',
+    days: [
+      ...Array(13).fill(null),
+      'review',
+      'conflict',
+      'review',
+      ...Array(9).fill(null),
+      ...Array(3).fill('confirmed'),
+      ...Array(4).fill(null),
+    ],
+  },
+  {
+    hall: 'МВЦ-П1',
+    hint: '22 из 31 дня',
+    days: [
+      ...Array(4).fill('done'),
+      ...Array(3).fill(null),
+      ...Array(8).fill('confirmed'),
+      ...Array(2).fill(null),
+      ...Array(7).fill('review'),
+      ...Array(3).fill('confirmed'),
+      ...Array(4).fill(null),
+    ],
+  },
+  {
+    hall: 'ALEM-Л',
+    hint: '4 из 31 дня',
+    days: [
+      ...Array(7).fill(null),
+      'confirmed',
+      'confirmed',
+      ...Array(12).fill(null),
+      'draft',
+      'draft',
+      ...Array(10).fill(null),
+    ],
+  },
+]
+
+/** Сезонность: объекты × месяцы, интенсивность 0..1 */
+export const HEAT_ROWS = [
+  {
+    label: 'КЦ',
+    values: [0.2, 0.35, 0.85, 0.6, 0.45, 0.2, 0.08, 0.12, 0.55, 0.95, 0.7, 0.5],
+  },
+  {
+    label: 'МВЦ',
+    values: [0.3, 0.5, 0.95, 0.8, 0.6, 0.3, 0.1, 0.15, 0.65, 1, 0.85, 0.55],
+  },
+  {
+    label: 'ALEM',
+    values: [0.1, 0.2, 0.45, 0.35, 0.3, 0.15, 0.05, 0.08, 0.4, 0.6, 0.5, 0.25],
+  },
+]
+
+/** Загрузка залов на текущий период, % */
+export const HALL_LOAD = [
+  { hall: 'МВЦ-П1', load: 71, plan: 65 },
+  { hall: 'КЦ-А1', load: 45, plan: 60 },
+  { hall: 'МВЦ-П3', load: 38, plan: 55 },
+  { hall: 'КЦ-Б2', load: 19, plan: 40 },
+  { hall: 'ALEM-Л', load: 13, plan: 35 },
+]
+
 export const EVENT_FORMATS = [
   { value: 'open', label: 'Открытое' },
   { value: 'closed', label: 'Закрытое' },

@@ -13,25 +13,29 @@ const KINDS = {
   success: {
     icon: 'check-circle',
     rail: 'bg-success-600',
+    glow: 'rgba(4, 120, 87, 0.55)',
     iconColor: 'text-success-600',
     title: 'Готово',
   },
   error: {
     icon: 'x-circle',
     rail: 'bg-danger-600',
+    glow: 'rgba(220, 38, 38, 0.55)',
     iconColor: 'text-danger-600',
     title: 'Ошибка',
   },
   warning: {
     icon: 'alert-triangle',
     rail: 'bg-signal-600',
+    glow: 'rgba(217, 119, 6, 0.55)',
     iconColor: 'text-signal-600',
     title: 'Внимание',
   },
   info: {
     icon: 'info',
-    rail: 'bg-status-paid-base',
-    iconColor: 'text-status-paid-base',
+    rail: 'bg-beam-600',
+    glow: 'rgba(53, 214, 240, 0.55)',
+    iconColor: 'text-beam-700',
     title: 'Информация',
   },
 }
@@ -113,13 +117,14 @@ export function Toast({ kind = 'info', title, description, action, onDismiss, cl
     <div
       role={kind === 'error' ? 'alert' : 'status'}
       className={cn(
-        'pointer-events-auto relative animate-slide-in-up overflow-hidden rounded-md border border-hairline bg-white pl-rail shadow-lg',
+        'pointer-events-auto relative animate-slide-in-up overflow-hidden rounded-md border border-hairline bg-surface-raised pl-rail shadow-lg',
         className,
       )}
     >
       <span
         aria-hidden="true"
         className={cn('absolute inset-y-0 left-0 w-rail rounded-l-[5px]', meta.rail)}
+        style={{ boxShadow: `0 0 10px 0 ${meta.glow}` }}
       />
       <div className="flex items-start gap-2.5 px-3 py-2.5">
         <Icon name={meta.icon} size={15} strokeWidth={1.8} className={cn('mt-px', meta.iconColor)} />

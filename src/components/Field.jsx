@@ -51,9 +51,9 @@ export function Field({
    Базовые классы контролов — единая геометрия для input/select/textarea
    ───────────────────────────────────────────────────────────── */
 const CONTROL_BASE =
-  'w-full appearance-none border bg-white text-ink-900 transition-colors duration-fast placeholder:text-ink-400 ' +
-  'hover:border-ink-400 focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-100 ' +
-  'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-50 disabled:text-ink-400 ' +
+  'w-full appearance-none border bg-white text-ink-900 transition-all duration-fast placeholder:text-ink-400 ' +
+  'hover:border-ink-400 focus:border-beam-500 focus:outline-none focus:ring-2 focus:ring-beam-400/25 focus:shadow-beam-sm ' +
+  'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-50 disabled:text-ink-400 disabled:shadow-none ' +
   'read-only:bg-ink-25 read-only:text-ink-600'
 
 const CONTROL_SIZES = {
@@ -299,11 +299,11 @@ export const Checkbox = forwardRef(function Checkbox(
           id={inputId}
           type="checkbox"
           className={cn(
-            'peer h-4 w-4 cursor-pointer appearance-none rounded-xs border border-hairline-strong bg-white transition-colors duration-fast',
-            'hover:border-navy-400',
-            'checked:border-navy-600 checked:bg-navy-600 indeterminate:border-navy-600 indeterminate:bg-navy-600',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-300 focus-visible:ring-offset-1',
-            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-100',
+            'peer h-4 w-4 cursor-pointer appearance-none rounded-xs border border-hairline-strong bg-white transition-all duration-fast',
+            'hover:border-beam-500',
+            'checked:border-beam-700 checked:bg-beam-700 checked:shadow-beam-sm indeterminate:border-beam-700 indeterminate:bg-beam-700',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beam-400/70 focus-visible:ring-offset-1',
+            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-100 disabled:shadow-none',
           )}
           {...rest}
         />
@@ -341,10 +341,10 @@ export const Radio = forwardRef(function Radio(
           id={inputId}
           type="radio"
           className={cn(
-            'peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-hairline-strong bg-white transition-colors duration-fast',
-            'hover:border-navy-400 checked:border-navy-600 checked:bg-navy-600',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-300 focus-visible:ring-offset-1',
-            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-100',
+            'peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-hairline-strong bg-white transition-all duration-fast',
+            'hover:border-beam-500 checked:border-beam-700 checked:bg-beam-700 checked:shadow-beam-sm',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beam-400/70 focus-visible:ring-offset-1',
+            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-100 disabled:shadow-none',
           )}
           {...rest}
         />
@@ -400,8 +400,8 @@ export const Switch = forwardRef(function Switch({ label, className, id, ...rest
         className="relative inline-flex h-4.5 w-8 shrink-0 cursor-pointer items-center"
       >
         <input ref={ref} id={inputId} type="checkbox" className="peer sr-only" {...rest} />
-        <span className="absolute inset-0 rounded-full bg-ink-300 transition-colors duration-fast peer-checked:bg-navy-600 peer-disabled:bg-ink-200 peer-focus-visible:ring-2 peer-focus-visible:ring-navy-300 peer-focus-visible:ring-offset-1" />
-        <span className="absolute left-0.5 h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-fast peer-checked:translate-x-3.5" />
+        <span className="absolute inset-0 rounded-full bg-ink-300 transition-all duration-base ease-spring peer-checked:bg-beam-700 peer-checked:shadow-beam-sm peer-disabled:bg-ink-200 peer-focus-visible:ring-2 peer-focus-visible:ring-beam-400/70 peer-focus-visible:ring-offset-1" />
+        <span className="absolute left-0.5 h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-base ease-spring peer-checked:translate-x-3.5" />
       </label>
       {label ? (
         <label htmlFor={inputId} className="cursor-pointer select-none text-base text-ink-800">

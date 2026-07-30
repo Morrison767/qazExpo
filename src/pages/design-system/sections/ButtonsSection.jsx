@@ -5,7 +5,7 @@ export function ButtonsSection() {
   return (
     <Section
       id="buttons"
-      num="05"
+      num="07"
       title="Кнопки"
       description="На экране всегда ровно одно primary-действие. Остальное — secondary и ghost. Danger отделён визуально и по расположению: подтверждение расторжения договора не должно стоять рядом с «Сохранить»."
     >

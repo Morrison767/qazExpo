@@ -5,8 +5,9 @@ import { HallPlate } from './HallPlate'
 /**
  * Хлебные крошки — путь по комплексу: Объект → Помещение → Мероприятие.
  * Последний элемент может нести табличку-идентификатор объекта.
+ * onDark — версия для корпуса (топбар, шапка панели).
  */
-export function Breadcrumbs({ items, className }) {
+export function Breadcrumbs({ items, onDark = false, className }) {
   return (
     <nav aria-label="Навигационная цепочка" className={cn('flex min-w-0 items-center', className)}>
       <ol className="flex min-w-0 items-center gap-1">
@@ -15,14 +16,25 @@ export function Breadcrumbs({ items, className }) {
           return (
             <li key={item.label ?? index} className="flex min-w-0 items-center gap-1">
               {index > 0 ? (
-                <Icon name="chevron-right" size={12} className="shrink-0 text-ink-300" />
+                <Icon
+                  name="chevron-right"
+                  size={12}
+                  className={cn('shrink-0', onDark ? 'text-obsidian-400' : 'text-ink-300')}
+                />
               ) : null}
               {isLast ? (
                 <span className="flex min-w-0 items-center gap-1.5">
-                  {item.plate ? <HallPlate size="sm">{item.plate}</HallPlate> : null}
+                  {item.plate ? (
+                    <HallPlate size="sm" tone={onDark ? 'beam' : 'outline'}>
+                      {item.plate}
+                    </HallPlate>
+                  ) : null}
                   <span
                     aria-current="page"
-                    className="truncate text-base font-medium text-ink-900"
+                    className={cn(
+                      'truncate text-base font-medium',
+                      onDark ? 'text-obsidian-50' : 'text-ink-900',
+                    )}
                   >
                     {item.label}
                   </span>
@@ -38,7 +50,12 @@ export function Breadcrumbs({ items, className }) {
                         }
                       : undefined
                   }
-                  className="focus-ring inline-flex shrink-0 items-center gap-1 rounded-sm px-0.5 text-base text-ink-500 transition-colors duration-fast hover:text-navy-700"
+                  className={cn(
+                    'inline-flex shrink-0 items-center gap-1 rounded-sm px-0.5 text-base transition-colors duration-fast',
+                    onDark
+                      ? 'focus-ring-dark text-obsidian-200 hover:text-beam-300'
+                      : 'focus-ring text-ink-500 hover:text-beam-700',
+                  )}
                 >
                   {index === 0 && item.icon ? <Icon name={item.icon} size={13} /> : null}
                   {item.label}

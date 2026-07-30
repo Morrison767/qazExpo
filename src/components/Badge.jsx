@@ -40,13 +40,14 @@ export function Counter({ value, tone = 'neutral', className }) {
   const tones = {
     neutral: 'bg-ink-100 text-ink-600',
     navy: 'bg-navy-100 text-navy-700',
+    beam: 'bg-beam-100 text-beam-800',
     danger: 'bg-danger-600 text-white',
     signal: 'bg-signal-600 text-white',
   }
   return (
     <span
       className={cn(
-        'inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-2xs font-semibold tabular-nums leading-none tracking-normal',
+        'inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-2xs font-semibold tabular-nums leading-none tracking-normal',
         tones[tone] ?? tones.neutral,
         className,
       )}

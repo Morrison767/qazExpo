@@ -4,9 +4,8 @@ import { Tabs } from '@/components/Tabs'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { Pagination } from '@/components/Pagination'
 import { RoleSwitcher } from '@/components/RoleSwitcher'
-import { PageHeader } from '@/components/Topbar'
-import { Button, IconButton } from '@/components/Button'
-import { SearchInput } from '@/components/Field'
+import { Topbar, PageHeader } from '@/components/Topbar'
+import { Button } from '@/components/Button'
 import { Counter } from '@/components/Badge'
 import { HallPlate } from '@/components/HallPlate'
 import { Icon } from '@/components/Icon'
@@ -25,13 +24,17 @@ export function NavigationSection() {
   return (
     <Section
       id="navigation"
-      num="10"
+      num="12"
       title="Навигация"
       description="Сайдбар работает как указатель по комплексу: группы разделов подписаны CAPS-метками, активный пункт маркирован той же сигнальной кромкой, что карточки и строки реестра. Состав разделов зависит от роли — арендатор физически не видит чужих сущностей."
     >
-      <DemoBlock title="Сайдбар" note="Светлая тема — основная; тёмная — для презентаций" tone="canvas">
+      <DemoBlock
+        title="Сайдбар"
+        note="Корпус — основной вариант; светлый — для встраивания"
+        tone="canvas"
+      >
         <div className="flex flex-wrap gap-4">
-          <div className="h-[30rem] overflow-hidden rounded-md border border-hairline shadow-xs">
+          <div className="h-[30rem] overflow-hidden rounded-md border border-obsidian-600/70 shadow-card-dark">
             <Sidebar
               groups={navForRole(roleKey)}
               activePath="/design-system"
@@ -39,21 +42,21 @@ export function NavigationSection() {
               onNavigate={() => {}}
             />
           </div>
-          <div className="h-[30rem] overflow-hidden rounded-md border border-navy-800 shadow-xs">
+          <div className="h-[30rem] overflow-hidden rounded-md border border-obsidian-600/70 shadow-card-dark">
             <Sidebar
               groups={navForRole(roleKey)}
               activePath="/events"
               role={getRole(roleKey)}
-              tone="dark"
+              collapsed
               onNavigate={() => {}}
             />
           </div>
-          <div className="h-[30rem] overflow-hidden rounded-md border border-hairline shadow-xs">
+          <div className="h-[30rem] overflow-hidden rounded-md border border-hairline shadow-card">
             <Sidebar
               groups={navForRole(roleKey)}
               activePath="/calendar"
               role={getRole(roleKey)}
-              collapsed
+              tone="light"
               onNavigate={() => {}}
             />
           </div>
@@ -105,33 +108,19 @@ export function NavigationSection() {
       </DemoBlock>
 
       <DemoBlock title="Топбар и переключатель роли" note="Демо-режим прототипа">
-        <div className="overflow-hidden rounded-md border border-hairline">
-          <header className="flex h-topbar items-center gap-3 border-b border-hairline bg-white px-3">
-            <IconButton icon="panel-left" label="Свернуть навигацию" size="sm" />
-            <Breadcrumbs
-              className="min-w-0 flex-1"
-              items={[
+        <div className="overflow-hidden rounded-md border border-hairline shadow-card">
+          <div className="on-obsidian relative">
+            <Topbar
+              roleKey={roleKey}
+              onRoleChange={setRole}
+              notifications={4}
+              breadcrumbs={[
                 { label: 'QazExpoCongress', icon: 'building', href: '#' },
                 { label: 'Мероприятия', href: '#' },
                 { label: 'Astana Finance Days 2026', plate: 'EV-0142' },
               ]}
             />
-            <SearchInput
-              placeholder="Поиск: мероприятие, договор, арендатор…"
-              hint="⌘K"
-              className="hidden w-64 md:block"
-            />
-            <div className="relative">
-              <IconButton icon="bell" label="Уведомления" />
-              <Counter
-                value={4}
-                tone="danger"
-                className="pointer-events-none absolute -right-0.5 -top-0.5 ring-2 ring-white"
-              />
-            </div>
-            <span className="h-5 w-px bg-hairline" />
-            <RoleSwitcher value={roleKey} onChange={setRole} />
-          </header>
+          </div>
           <PageHeader
             icon="presentation"
             title="Реестр мероприятий"

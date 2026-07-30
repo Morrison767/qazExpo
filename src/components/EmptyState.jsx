@@ -8,13 +8,16 @@ import { Icon } from './Icon'
  * tone: default (нет данных) | search (ничего не найдено) | error (сбой)
  */
 const TONES = {
-  default: { icon: 'inbox', iconClass: 'text-navy-400 bg-navy-50 border-navy-100' },
-  search: { icon: 'search', iconClass: 'text-ink-400 bg-ink-50 border-hairline' },
+  default: {
+    icon: 'inbox',
+    iconClass: 'text-beam-700 bg-beam-50 border-beam-200 shadow-beam-sm',
+  },
+  search: { icon: 'search', iconClass: 'text-ink-400 bg-ink-50 border-hairline shadow-bevel' },
   error: {
     icon: 'alert-triangle',
     iconClass: 'text-danger-600 bg-danger-50 border-danger-200',
   },
-  locked: { icon: 'lock', iconClass: 'text-ink-400 bg-ink-50 border-hairline' },
+  locked: { icon: 'lock', iconClass: 'text-ink-400 bg-ink-50 border-hairline shadow-bevel' },
 }
 
 const SIZES = {

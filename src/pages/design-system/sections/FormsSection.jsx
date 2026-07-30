@@ -30,7 +30,7 @@ export function FormsSection() {
   return (
     <Section
       id="forms"
-      num="06"
+      num="08"
       title="Поля ввода"
       description="Метка над полем в CAPS 10px — тот же «указательный» язык, что у заголовков колонок и табличек. Высота 32px, единая геометрия для input, select, date и textarea. Ошибка всегда текстом, а не только красной рамкой."
     >

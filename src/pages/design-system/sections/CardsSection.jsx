@@ -11,8 +11,9 @@ import { Badge } from '@/components/Badge'
 import { Button, IconButton } from '@/components/Button'
 import { StatusBadge } from '@/components/Status'
 import { HallPlate } from '@/components/HallPlate'
+import { Sparkline, RingGauge } from '@/components/Instruments'
 import { formatDate, formatDateRange, formatMoney, formatNumber } from '@/lib/format'
-import { CONTRACTS, EVENTS } from '@/demo/data'
+import { CONTRACTS, EVENTS, TREND_DEBT, TREND_EVENTS, TREND_REVENUE } from '@/demo/data'
 import { Section, DemoBlock } from '../parts'
 
 const event = EVENTS[0]
@@ -23,7 +24,7 @@ export function CardsSection() {
   return (
     <Section
       id="cards"
-      num="07"
+      num="09"
       title="Карточки"
       description="Единая структура для мероприятия, договора, арендатора и подрядчика: сигнальная кромка слева, табличка-идентификатор, заголовок, сетка полей с CAPS-метками. Оператор узнаёт объект по одной и той же анатомии в любом разделе."
     >
@@ -207,40 +208,67 @@ export function CardsSection() {
         </DemoBlock>
       </div>
 
-      <DemoBlock title="KPI-плитки дашборда" tone="canvas">
+      <DemoBlock
+        title="Приборные плитки дашборда"
+        note="Контраст кеглей 1:5, досчёт величины, слот под инструмент"
+        tone="canvas"
+      >
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <StatTile
             label="Мероприятий в марте"
-            value="14"
+            countTo={14}
             delta="+3"
             deltaTone="up"
             hint="к февралю"
             icon="presentation"
+            instrument={<Sparkline data={TREND_EVENTS} />}
           />
           <StatTile
             label="Загрузка помещений"
-            value="68"
+            countTo={68}
             unit="%"
             delta="+11%"
             deltaTone="up"
             hint="Конгресс-центр"
             icon="chart"
+            instrument={<RingGauge value={68} size={52} stroke={5} />}
           />
           <StatTile
             label="Сумма договоров"
-            value="252,1"
+            countTo={252}
             unit="млн ₸"
-            delta="−4,2%"
-            deltaTone="down"
+            delta="+18,4%"
+            deltaTone="up"
             hint="к плану квартала"
             icon="wallet"
+            instrument={<Sparkline data={TREND_REVENUE} tone="confirmed" />}
           />
           <StatTile
             label="Дебиторская задолженность"
-            value="126,0"
+            countTo={126}
             unit="млн ₸"
             hint="1 договор просрочен"
             icon="alert-circle"
+            status="unpaid"
+            instrument={<Sparkline data={TREND_DEBT} tone="unpaid" />}
+          />
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <StatTile
+            tone="dark"
+            label="На корпусе прибора"
+            countTo={42}
+            hint="предстоящих мероприятий"
+            icon="calendar"
+            instrument={<Sparkline data={TREND_EVENTS} onDark />}
+          />
+          <StatTile
+            tone="dark"
+            label="Конфликты брони"
+            countTo={2}
+            status="conflict"
+            hint="требуют решения"
+            icon="alert-triangle"
           />
         </div>
       </DemoBlock>

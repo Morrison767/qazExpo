@@ -2,19 +2,36 @@ import { forwardRef } from 'react'
 import { cn } from '@/lib/cn'
 import { Icon } from './Icon'
 
+/**
+ * КНОПКИ.
+ * Залитые получают верхний блик (shadow-button) — кромка читается как
+ * фрезерованная, а не как плоский прямоугольник. Фокус — луч, не серое кольцо.
+ * На корпусе прибора работают варианты *-dark.
+ */
 const VARIANTS = {
   primary:
-    'bg-navy-600 text-white border-navy-700 hover:bg-navy-700 active:bg-navy-800 shadow-xs',
+    'bg-navy-600 text-white border-navy-800 hover:bg-navy-500 active:bg-navy-700 shadow-button',
   secondary:
-    'bg-white text-ink-800 border-hairline-strong hover:bg-ink-50 hover:border-ink-400 active:bg-ink-100 shadow-xs',
+    'bg-surface-raised text-ink-800 border-hairline-strong hover:border-ink-400 hover:bg-white active:bg-ink-50 shadow-button-light',
   danger:
-    'bg-danger-600 text-white border-danger-700 hover:bg-danger-700 active:bg-danger-800 shadow-xs',
+    'bg-danger-600 text-white border-danger-800 hover:bg-danger-500 active:bg-danger-700 shadow-button',
   ghost:
     'bg-transparent text-ink-600 border-transparent hover:bg-ink-100 hover:text-ink-900 active:bg-ink-200',
   subtle:
-    'bg-navy-50 text-navy-700 border-navy-100 hover:bg-navy-100 hover:border-navy-200 active:bg-navy-200',
-  link: 'bg-transparent text-navy-600 border-transparent underline-offset-2 hover:underline hover:text-navy-700 px-0',
+    'bg-beam-50 text-beam-800 border-beam-200 hover:bg-beam-100 hover:border-beam-300 active:bg-beam-200',
+  link: 'bg-transparent text-beam-700 border-transparent underline-offset-2 hover:underline hover:text-beam-800 px-0',
+  /** Главный CTA сводных экранов: свет как призыв к действию */
+  beam: 'bg-beam-700 text-white border-beam-800 hover:bg-beam-600 active:bg-beam-800 shadow-button hover:shadow-beam',
+  /* ── На корпусе прибора ── */
+  'primary-dark':
+    'bg-beam-500 text-obsidian-950 border-beam-600 hover:bg-beam-400 active:bg-beam-600 shadow-button font-semibold',
+  'secondary-dark':
+    'bg-white/[0.06] text-obsidian-50 border-white/[0.12] hover:bg-white/[0.1] hover:border-white/20 active:bg-white/[0.14] shadow-button-dark',
+  'ghost-dark':
+    'bg-transparent text-obsidian-200 border-transparent hover:bg-white/[0.07] hover:text-white active:bg-white/[0.1]',
 }
+
+const DARK_VARIANTS = new Set(['primary-dark', 'secondary-dark', 'ghost-dark'])
 
 const SIZES = {
   sm: 'h-control-sm gap-1.5 rounded-sm px-2.5 text-xs',
@@ -52,8 +69,9 @@ export const Button = forwardRef(function Button(
       aria-busy={loading || undefined}
       aria-disabled={Component !== 'button' && isDisabled ? true : undefined}
       className={cn(
-        'focus-ring inline-flex select-none items-center justify-center whitespace-nowrap border font-medium transition-colors duration-fast',
-        'disabled:pointer-events-none disabled:opacity-45',
+        'inline-flex select-none items-center justify-center whitespace-nowrap border font-medium transition-all duration-fast ease-decelerate',
+        'disabled:pointer-events-none disabled:opacity-45 disabled:shadow-none',
+        DARK_VARIANTS.has(variant) ? 'focus-ring-dark' : 'focus-ring',
         VARIANTS[variant] ?? VARIANTS.secondary,
         SIZES[size] ?? SIZES.md,
         block && 'w-full',
@@ -99,8 +117,9 @@ export const IconButton = forwardRef(function IconButton(
       title={label}
       disabled={disabled || loading}
       className={cn(
-        'focus-ring inline-flex shrink-0 items-center justify-center border transition-colors duration-fast',
-        'disabled:pointer-events-none disabled:opacity-45',
+        'inline-flex shrink-0 items-center justify-center border transition-all duration-fast ease-decelerate',
+        'disabled:pointer-events-none disabled:opacity-45 disabled:shadow-none',
+        DARK_VARIANTS.has(variant) ? 'focus-ring-dark' : 'focus-ring',
         VARIANTS[variant] ?? VARIANTS.ghost,
         ICON_BUTTON_SIZES[size] ?? ICON_BUTTON_SIZES.md,
         className,

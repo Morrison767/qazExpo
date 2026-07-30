@@ -4,17 +4,19 @@ import { Icon } from './Icon'
 
 /**
  * ═══════════════════════════════════════════════════════════════
- *  СИГНАЛЬНАЯ КРОМКА + СТАТУСНЫЙ БЕЙДЖ — подписная деталь системы
+ *  СВЕТЯЩАЯСЯ КРОМКА + СТАТУСНЫЙ БЕЙДЖ — подписная деталь системы
  * ═══════════════════════════════════════════════════════════════
  *
- * StatusRail — вертикальная кромка 4px слева от любого объекта, несущего
- * статус: карточка, строка реестра, элемент календаря, слайд-панель, тост.
- * Статус считывается периферийным зрением до чтения текста.
+ * StatusRail — кромка 3px слева от любого объекта, несущего статус:
+ * карточка, строка реестра, элемент календаря, слайд-панель, тост.
+ * Кромка светится своим тоном — читается как индикатор на приборе,
+ * а не как декоративная полоска. Статус считывается периферийным
+ * зрением до чтения текста.
  *
  * Доступность: цвет никогда не работает один. Бейдж всегда несёт
  * иконку-форму + текстовую метку, а «конфликт» дополнительно получает
  * диагональную штриховку — единственный статус с паттерном,
- * читаемый даже в ч/б печати и при любой форме цветовой слепоты.
+ * читаемый в ч/б печати и при любой форме цветовой слепоты.
  */
 
 /* Статические классы — Tailwind должен видеть их в исходниках */
@@ -93,7 +95,8 @@ const BADGE_SIZES = {
 const BADGE_ICON_SIZE = { sm: 10, md: 12, lg: 13 }
 
 /**
- * Бейдж статуса. variant: soft (по умолчанию) | solid | outline
+ * Бейдж статуса.
+ * variant: soft (по умолчанию) | solid | outline | dark (на корпусе прибора)
  */
 export function StatusBadge({
   status,
@@ -106,16 +109,29 @@ export function StatusBadge({
 }) {
   const meta = getStatus(status)
   const key = meta.key
-  const palette = variant === 'solid' ? SOLID : variant === 'outline' ? OUTLINE : SOFT
+  const isDark = variant === 'dark'
+
+  const palette = isDark
+    ? null
+    : variant === 'solid'
+      ? SOLID
+      : variant === 'outline'
+        ? OUTLINE
+        : SOFT
 
   return (
     <span
       className={cn(
         'inline-flex max-w-full items-center border font-medium leading-none',
-        palette[key],
+        isDark ? 'bg-white/[0.05]' : palette[key],
         BADGE_SIZES[size] ?? BADGE_SIZES.md,
         className,
       )}
+      style={
+        isDark
+          ? { borderColor: meta.colors.glow, color: meta.colors.onDark }
+          : undefined
+      }
       title={meta.description}
       {...rest}
     >
@@ -124,7 +140,7 @@ export function StatusBadge({
           name={meta.icon}
           size={BADGE_ICON_SIZE[size] ?? 12}
           strokeWidth={1.8}
-          className={variant === 'solid' ? 'text-white' : ICON_COLOR[key]}
+          className={variant === 'solid' ? 'text-white' : isDark ? undefined : ICON_COLOR[key]}
         />
       ) : null}
       <span className="truncate">{label ?? meta.label}</span>
@@ -133,10 +149,11 @@ export function StatusBadge({
 }
 
 /**
- * Сигнальная кромка. Растягивается по высоте родителя (родителю нужен `relative`).
+ * Светящаяся кромка. Растягивается по высоте родителя (родителю нужен `relative`).
  * Для статуса «конфликт» включается диагональная штриховка.
+ * `glow={false}` — для плотных списков, где 40 свечений создали бы шум.
  */
-export function StatusRail({ status, className, rounded = true, ...rest }) {
+export function StatusRail({ status, className, rounded = true, glow = true, ...rest }) {
   const meta = getStatus(status)
   const isConflict = meta.key === 'conflict'
 
@@ -149,13 +166,26 @@ export function StatusRail({ status, className, rounded = true, ...rest }) {
         rounded && 'rounded-l-[5px]',
         className,
       )}
+      style={glow ? { boxShadow: `0 0 10px 0 ${meta.colors.glow}` } : undefined}
       {...rest}
     />
   )
 }
 
-/** Компактная точка статуса — для плотных списков и легенд календаря */
-export function StatusDot({ status, size = 8, className, withLabel = false, labelClassName }) {
+/**
+ * Точка статуса — легенды календаря, плотные списки.
+ * `pulse` — только для состояний, требующих действия.
+ */
+export function StatusDot({
+  status,
+  size = 8,
+  className,
+  withLabel = false,
+  labelClassName,
+  glow = true,
+  pulse = false,
+  onDark = false,
+}) {
   const meta = getStatus(status)
   const dot = (
     <span
@@ -163,31 +193,40 @@ export function StatusDot({ status, size = 8, className, withLabel = false, labe
       className={cn(
         'inline-block shrink-0 rounded-full',
         RAIL_BG[meta.key],
-        meta.key === 'conflict' && 'ring-2 ring-status-conflict-soft',
+        pulse && 'animate-pulse-beam',
         className,
       )}
-      style={{ width: size, height: size }}
+      style={{
+        width: size,
+        height: size,
+        boxShadow: glow ? `0 0 8px 0 ${meta.colors.glow}` : undefined,
+      }}
     />
   )
   if (!withLabel) return dot
   return (
     <span className="inline-flex items-center gap-1.5">
       {dot}
-      <span className={cn('text-xs text-ink-600', labelClassName)}>{meta.label}</span>
+      <span
+        className={cn('text-xs', onDark ? 'text-obsidian-200' : 'text-ink-600', labelClassName)}
+      >
+        {meta.label}
+      </span>
     </span>
   )
 }
 
-/** Метка-полоса для календаря: кромка + текст в одну строку */
-export function StatusStrip({ status, children, className }) {
+/** Метка-полоса для календаря: светящаяся кромка + текст в одну строку */
+export function StatusStrip({ status, children, className, onDark = false }) {
   const meta = getStatus(status)
   return (
     <div
       className={cn(
         'relative overflow-hidden rounded-sm border py-1 pl-2.5 pr-2 text-xs',
-        SOFT[meta.key],
+        onDark ? 'bg-white/[0.05]' : SOFT[meta.key],
         className,
       )}
+      style={onDark ? { borderColor: meta.colors.glow, color: meta.colors.onDark } : undefined}
     >
       <StatusRail status={status} rounded={false} />
       <div className="truncate font-medium">{children}</div>

@@ -1,16 +1,19 @@
 import { useMemo, useState } from 'react'
 import { cn } from '@/lib/cn'
 import { getStatus } from '@/design/statuses'
+import { motion } from '@/design/tokens'
 import { Icon } from './Icon'
 import { Checkbox } from './Field'
+import { SkeletonRow } from './Motion'
 
 /**
  * РЕЕСТРОВАЯ ТАБЛИЦА.
  *
  * Плотность — приоритет: строка 36px, кегль 12–13px, табличные цифры,
  * липкая шапка, CAPS-заголовки как на указателях.
- * Слева у каждой строки — сигнальная кромка статуса (подписная деталь):
+ * Слева у каждой строки — светящаяся кромка статуса (подписная деталь):
  * оператор видит состояние всего реестра одним движением взгляда.
+ * Строки проявляются каскадом с шагом 14ms — взгляд получает порядок чтения.
  */
 
 const RAIL_BG = {
@@ -46,6 +49,9 @@ const ALIGN = {
   center: 'text-center',
 }
 
+/** Каскад ограничен 15 шагами: дальше задержка не читается, только тормозит */
+const MAX_STAGGER_STEPS = 15
+
 function defaultCompare(a, b) {
   if (a == null) return 1
   if (b == null) return -1
@@ -72,7 +78,10 @@ export function DataTable({
   initialSort = null,
   onRowClick,
   emptyState,
+  loading = false,
+  loadingRows = 5,
   stickyHeader = false,
+  reveal = true,
   frame = true,
   className,
 }) {
@@ -115,146 +124,171 @@ export function DataTable({
   return (
     <div
       className={cn(
-        'overflow-hidden bg-white',
-        frame
-          ? 'rounded-md border border-hairline shadow-xs'
-          : 'border-x border-hairline',
+        'overflow-hidden bg-surface-raised',
+        frame ? 'rounded-md border border-hairline shadow-card' : 'border-x border-hairline',
         className,
       )}
     >
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-left">
-          <thead className={cn(stickyHeader && 'sticky top-0 z-sticky')}>
-            <tr className="bg-ink-50">
-              {statusKey ? <th className="w-rail p-0" aria-label="Статус" /> : null}
-              {selectable ? (
-                <th className={cn('w-9 border-b border-hairline bg-ink-50', d.head)}>
-                  <Checkbox
-                    checked={allSelected}
-                    indeterminate={someSelected}
-                    onChange={toggleAll}
-                    aria-label="Выбрать все строки"
-                  />
-                </th>
-              ) : null}
-              {columns.map((column) => {
-                const isSorted = sort?.key === column.key
-                const align = ALIGN[column.align] ?? ALIGN.left
-                return (
-                  <th
-                    key={column.key}
-                    scope="col"
-                    style={column.width ? { width: column.width } : undefined}
-                    className={cn(
-                      'border-b border-hairline bg-ink-50 text-2xs font-semibold uppercase tracking-label text-ink-500',
-                      d.head,
-                      align,
-                      column.headClassName,
-                    )}
-                  >
-                    {column.sortable ? (
-                      <button
-                        type="button"
-                        onClick={() => toggleSort(column.key)}
-                        className={cn(
-                          'focus-ring group -mx-1 inline-flex h-6 max-w-full items-center gap-1 rounded-sm px-1 transition-colors duration-fast hover:text-navy-700',
-                          isSorted && 'text-navy-700',
-                          column.align === 'right' && 'flex-row-reverse',
-                        )}
-                        aria-label={`Сортировать по «${column.header}»`}
-                      >
-                        <span className="truncate uppercase tracking-label">{column.header}</span>
-                        <Icon
-                          name={
-                            isSorted ? (sort.dir === 'asc' ? 'sort-asc' : 'sort-desc') : 'sort'
-                          }
-                          size={11}
-                          className={cn(
-                            'shrink-0 transition-opacity duration-fast',
-                            isSorted
-                              ? 'text-navy-600 opacity-100'
-                              : 'text-ink-300 opacity-60 group-hover:opacity-100',
-                          )}
-                        />
-                      </button>
-                    ) : (
-                      <span className="truncate">{column.header}</span>
-                    )}
+      {loading ? (
+        <div>
+          <div className={cn('flex items-center border-b border-hairline bg-ink-50', d.head)}>
+            <span className="text-2xs font-semibold uppercase tracking-label text-ink-400">
+              Загрузка данных
+            </span>
+          </div>
+          {Array.from({ length: loadingRows }).map((_, index) => (
+            <SkeletonRow key={index} columns={Math.min(6, columns.length)} />
+          ))}
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-left">
+            <thead className={cn(stickyHeader && 'sticky top-0 z-sticky')}>
+              <tr className="bg-ink-50">
+                {statusKey ? <th className="w-rail p-0" aria-label="Статус" /> : null}
+                {selectable ? (
+                  <th className={cn('w-9 border-b border-hairline bg-ink-50', d.head)}>
+                    <Checkbox
+                      checked={allSelected}
+                      indeterminate={someSelected}
+                      onChange={toggleAll}
+                      aria-label="Выбрать все строки"
+                    />
                   </th>
-                )
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {sortedRows.length === 0 ? (
-              <tr>
-                <td colSpan={colCount} className="p-0">
-                  {emptyState}
-                </td>
+                ) : null}
+                {columns.map((column) => {
+                  const isSorted = sort?.key === column.key
+                  const align = ALIGN[column.align] ?? ALIGN.left
+                  return (
+                    <th
+                      key={column.key}
+                      scope="col"
+                      style={column.width ? { width: column.width } : undefined}
+                      className={cn(
+                        'border-b border-hairline bg-ink-50 text-2xs font-semibold uppercase tracking-label text-ink-500',
+                        d.head,
+                        align,
+                        column.headClassName,
+                      )}
+                    >
+                      {column.sortable ? (
+                        <button
+                          type="button"
+                          onClick={() => toggleSort(column.key)}
+                          className={cn(
+                            'focus-ring group -mx-1 inline-flex h-6 max-w-full items-center gap-1 rounded-sm px-1 transition-colors duration-fast hover:text-beam-700',
+                            isSorted && 'text-beam-700',
+                            column.align === 'right' && 'flex-row-reverse',
+                          )}
+                          aria-label={`Сортировать по «${column.header}»`}
+                        >
+                          <span className="truncate uppercase tracking-label">{column.header}</span>
+                          <Icon
+                            name={isSorted ? (sort.dir === 'asc' ? 'sort-asc' : 'sort-desc') : 'sort'}
+                            size={11}
+                            className={cn(
+                              'shrink-0 transition-opacity duration-fast',
+                              isSorted
+                                ? 'text-beam-600 opacity-100'
+                                : 'text-ink-300 opacity-60 group-hover:opacity-100',
+                            )}
+                          />
+                        </button>
+                      ) : (
+                        <span className="truncate">{column.header}</span>
+                      )}
+                    </th>
+                  )
+                })}
               </tr>
-            ) : (
-              sortedRows.map((row, index) => {
-                const key = rowKey(row, index)
-                const isSelected = selected.includes(key)
-                const statusValue = statusKey ? statusKey(row) : null
-                const statusMeta = statusValue ? getStatus(statusValue) : null
-                const isConflict = statusMeta?.key === 'conflict'
+            </thead>
+            <tbody>
+              {sortedRows.length === 0 ? (
+                <tr>
+                  <td colSpan={colCount} className="p-0">
+                    {emptyState}
+                  </td>
+                </tr>
+              ) : (
+                sortedRows.map((row, index) => {
+                  const key = rowKey(row, index)
+                  const isSelected = selected.includes(key)
+                  const statusValue = statusKey ? statusKey(row) : null
+                  const statusMeta = statusValue ? getStatus(statusValue) : null
+                  const isConflict = statusMeta?.key === 'conflict'
 
-                return (
-                  <tr
-                    key={key}
-                    onClick={onRowClick ? () => onRowClick(row) : undefined}
-                    className={cn(
-                      'group border-b border-hairline-soft transition-colors duration-fast last:border-b-0',
-                      isSelected ? 'bg-navy-50' : 'hover:bg-navy-50/50',
-                      onRowClick && 'cursor-pointer',
-                    )}
-                  >
-                    {statusKey ? (
-                      <td
-                        className={cn(
-                          'w-rail p-0',
-                          isConflict
-                            ? cn('hazard-stripes', RAIL_TEXT[statusMeta.key])
-                            : statusMeta
-                              ? RAIL_BG[statusMeta.key]
-                              : null,
-                        )}
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    {selectable ? (
-                      <td className={cn(d.row, d.cell, 'w-9')} onClick={(e) => e.stopPropagation()}>
-                        <Checkbox
-                          checked={isSelected}
-                          onChange={() => toggleRow(key)}
-                          aria-label="Выбрать строку"
+                  return (
+                    <tr
+                      key={key}
+                      onClick={onRowClick ? () => onRowClick(row) : undefined}
+                      className={cn(
+                        'group border-b border-hairline-soft transition-colors duration-fast last:border-b-0',
+                        isSelected ? 'bg-beam-50' : 'hover:bg-beam-50/50',
+                        onRowClick && 'cursor-pointer',
+                        reveal && 'animate-reveal-up',
+                      )}
+                      style={
+                        reveal
+                          ? {
+                              animationDelay: `${Math.min(index, MAX_STAGGER_STEPS) * motion.stagger}ms`,
+                            }
+                          : undefined
+                      }
+                    >
+                      {statusKey ? (
+                        <td
+                          className={cn(
+                            'w-rail p-0 transition-[box-shadow] duration-fast',
+                            isConflict
+                              ? cn('hazard-stripes', RAIL_TEXT[statusMeta.key])
+                              : statusMeta
+                                ? RAIL_BG[statusMeta.key]
+                                : null,
+                          )}
+                          style={
+                            statusMeta && !isConflict
+                              ? { boxShadow: `0 0 8px 0 ${statusMeta.colors.glow}` }
+                              : undefined
+                          }
+                          aria-hidden="true"
                         />
-                      </td>
-                    ) : null}
-                    {columns.map((column) => (
-                      <td
-                        key={column.key}
-                        className={cn(
-                          d.row,
-                          d.cell,
-                          'text-ink-800 tabular-nums',
-                          ALIGN[column.align] ?? ALIGN.left,
-                          column.mono && 'font-mono',
-                          column.nowrap && 'whitespace-nowrap',
-                          column.cellClassName,
-                        )}
-                      >
-                        {column.render ? column.render(row) : (row[column.key] ?? '—')}
-                      </td>
-                    ))}
-                  </tr>
-                )
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
+                      ) : null}
+                      {selectable ? (
+                        <td
+                          className={cn(d.row, d.cell, 'w-9')}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Checkbox
+                            checked={isSelected}
+                            onChange={() => toggleRow(key)}
+                            aria-label="Выбрать строку"
+                          />
+                        </td>
+                      ) : null}
+                      {columns.map((column) => (
+                        <td
+                          key={column.key}
+                          className={cn(
+                            d.row,
+                            d.cell,
+                            'text-ink-800 tabular-nums',
+                            ALIGN[column.align] ?? ALIGN.left,
+                            column.mono && 'font-mono',
+                            column.nowrap && 'whitespace-nowrap',
+                            column.cellClassName,
+                          )}
+                        >
+                          {column.render ? column.render(row) : (row[column.key] ?? '—')}
+                        </td>
+                      ))}
+                    </tr>
+                  )
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }
@@ -264,7 +298,7 @@ export function TableToolbar({ left, right, className, children }) {
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center justify-between gap-2 rounded-t-md border border-b-0 border-hairline bg-white px-3 py-2.5',
+        'flex flex-wrap items-center justify-between gap-2 rounded-t-md border border-b-0 border-hairline bg-surface-raised px-3 py-2.5 shadow-bevel',
         className,
       )}
     >
@@ -279,7 +313,7 @@ export function TableCaption({ children, className }) {
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center gap-x-4 gap-y-1.5 px-1 pt-2 text-xs text-ink-500',
+        'flex flex-wrap items-center gap-x-4 gap-y-1.5 px-1 pt-2.5 text-xs text-ink-500',
         className,
       )}
     >

@@ -20,7 +20,7 @@ export function OverlaysSection() {
   return (
     <Section
       id="overlays"
-      num="09"
+      num="11"
       title="Модальные окна и слайд-панели"
       description="Разделение строгое: модальное окно — короткое подтверждение или компактная форма; слайд-панель — карточка объекта поверх реестра, чтобы оператор не терял выборку и место в списке."
     >
@@ -211,6 +211,7 @@ export function OverlaysSection() {
         subtitle={`${event.tenant} · ${event.object}`}
         tabs={
           <Tabs
+            onDark
             value={panelTab}
             onChange={setPanelTab}
             items={[

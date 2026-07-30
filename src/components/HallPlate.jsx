@@ -12,11 +12,13 @@ import { Icon } from './Icon'
  * Правило: в табличке — только машинный идентификатор. Никаких названий.
  */
 const TONES = {
-  navy: 'bg-navy-800 text-white border-transparent shadow-plate',
+  navy: 'bg-navy-800 text-white border-navy-900/60 shadow-plate',
   outline: 'bg-white text-navy-700 border-navy-200',
   muted: 'bg-ink-100 text-ink-600 border-transparent',
-  signal: 'bg-signal-600 text-white border-transparent shadow-plate',
-  inverse: 'bg-white/10 text-white border-white/20',
+  signal: 'bg-signal-600 text-white border-signal-700/60 shadow-plate',
+  inverse: 'bg-white/[0.08] text-obsidian-50 border-white/[0.14]',
+  /** Подсвеченная табличка — бренд-блок, активный объект на корпусе */
+  beam: 'bg-obsidian-800 text-beam-300 border-beam-400/35',
 }
 
 const SIZES = {
@@ -40,6 +42,7 @@ export function HallPlate({
         'inline-flex shrink-0 items-center rounded-sm border font-mono font-semibold uppercase tabular-nums',
         TONES[tone] ?? TONES.navy,
         SIZES[size] ?? SIZES.md,
+        tone === 'beam' && 'shadow-beam-sm',
         className,
       )}
       {...rest}

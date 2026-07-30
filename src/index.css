@@ -24,7 +24,7 @@
   }
 
   ::selection {
-    @apply bg-navy-100 text-navy-900;
+    @apply bg-beam-200 text-obsidian-900;
   }
 
   /* Тонкий холодный скроллбар — не отвлекает при долгой работе */
@@ -54,6 +54,16 @@
     background-clip: content-box;
   }
 
+  /* Скроллбар внутри корпуса прибора */
+  .on-obsidian * {
+    scrollbar-color: theme('colors.obsidian.600') transparent;
+  }
+
+  .on-obsidian ::-webkit-scrollbar-thumb {
+    background-color: theme('colors.obsidian.600');
+    background-clip: content-box;
+  }
+
   /* Нативный индикатор календаря приглушаем до уровня остальных иконок */
   input[type='date']::-webkit-calendar-picker-indicator,
   input[type='time']::-webkit-calendar-picker-indicator,
@@ -73,26 +83,72 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
+  /* Уважение к системной настройке: выключаем анимации целиком */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {
-  /* Единое фокус-кольцо на весь интерфейс */
+  /* ── ФОКУС ─────────────────────────────────────────────────
+     Фокус-кольцо — луч, а не серая обводка. Одинаково читается
+     и на светлой поверхности, и на корпусе. */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-300 focus-visible:ring-offset-1 focus-visible:ring-offset-white;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beam-400/70 focus-visible:ring-offset-1 focus-visible:ring-offset-white;
+  }
+
+  .focus-ring-dark {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beam-400/70 focus-visible:ring-offset-1 focus-visible:ring-offset-obsidian-900;
   }
 
   .focus-ring-inset {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-navy-400;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-beam-400/70;
   }
 
-  /* Табличные цифры точечно */
-  .tnum {
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: 'tnum' 1;
+  /* ── ГЛУБИНА ───────────────────────────────────────────────
+     Три слоя: граница 1px + фаска сверху + ambient-тень. */
+  .surface-raised {
+    @apply bg-surface-raised shadow-card;
   }
 
-  /* Подложка «план выставочного зала» — для пустых состояний и заглушек.
-     Ненавязчивая отсылка к схемам павильонов. */
+  .surface-obsidian {
+    @apply bg-surface-obsidian shadow-card-dark;
+  }
+
+  /* ── СВЕТ ──────────────────────────────────────────────────
+     Тонкая светящаяся линия: кромка корпуса, разделитель сводки. */
+  .beam-edge {
+    @apply bg-beam-line h-px w-full;
+  }
+
+  .beam-edge-soft {
+    @apply bg-beam-line-soft h-px w-full;
+  }
+
+  .text-beam-glow {
+    text-shadow: 0 0 16px rgba(53, 214, 240, 0.45);
+  }
+
+  /* ── ФАКТУРА ───────────────────────────────────────────────
+     Точечная сетка на корпусе и сетка «плана зала» на светлом. */
+  .dot-grid {
+    background-image: radial-gradient(rgba(148, 167, 184, 0.16) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  .dot-grid-light {
+    background-image: radial-gradient(rgba(27, 58, 107, 0.1) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
   .floorplan-grid {
     background-image:
       linear-gradient(to right, rgba(27, 58, 107, 0.055) 1px, transparent 1px),
@@ -100,21 +156,72 @@
     background-size: 24px 24px;
   }
 
-  .floorplan-grid-lg {
+  .floorplan-grid-dark {
     background-image:
-      linear-gradient(to right, rgba(27, 58, 107, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(27, 58, 107, 0.05) 1px, transparent 1px);
-    background-size: 48px 48px;
+      linear-gradient(to right, rgba(148, 167, 184, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 167, 184, 0.07) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
-  /* Штриховка «внимание» — единственный статус с паттерном (конфликт).
-     Пересечение брони должно кричать даже периферийным зрением и в ч/б печати. */
+  /* Радиальное свечение из угла корпуса — убирает «залитый прямоугольник» */
+  .bloom-beam {
+    background-image: radial-gradient(
+      120% 90% at 12% -20%,
+      rgba(53, 214, 240, 0.14) 0%,
+      rgba(53, 214, 240, 0.05) 35%,
+      transparent 68%
+    );
+  }
+
+  .bloom-navy {
+    background-image: radial-gradient(
+      110% 80% at 88% -10%,
+      rgba(47, 84, 144, 0.35) 0%,
+      transparent 62%
+    );
+  }
+
+  /* ── СТАТУСЫ ───────────────────────────────────────────────
+     Штриховка «внимание» — единственный статус с паттерном (конфликт).
+     Пересечение брони должно кричать даже в ч/б печати. */
   .hazard-stripes {
     background-image: repeating-linear-gradient(
       135deg,
       currentColor 0 3px,
       rgba(255, 255, 255, 0.55) 3px 6px
     );
+  }
+
+  /* ── ЗАГРУЗКА ──────────────────────────────────────────────
+     Скелетон: мерцание указывает, что процесс идёт. */
+  .shimmer {
+    background-image: linear-gradient(
+      90deg,
+      theme('colors.ink.100') 0%,
+      theme('colors.ink.50') 40%,
+      theme('colors.ink.200') 55%,
+      theme('colors.ink.100') 100%
+    );
+    background-size: 220% 100%;
+    @apply animate-shimmer;
+  }
+
+  .shimmer-dark {
+    background-image: linear-gradient(
+      90deg,
+      theme('colors.obsidian.800') 0%,
+      theme('colors.obsidian.700') 45%,
+      theme('colors.obsidian.600') 55%,
+      theme('colors.obsidian.800') 100%
+    );
+    background-size: 220% 100%;
+    @apply animate-shimmer;
+  }
+
+  /* ── ПРОЧЕЕ ────────────────────────────────────────────────── */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
   }
 
   .no-scrollbar {

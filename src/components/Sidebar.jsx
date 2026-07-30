@@ -4,42 +4,53 @@ import { HallPlate } from './HallPlate'
 import { Counter } from './Badge'
 
 /**
- * НАВИГАЦИОННЫЙ САЙДБАР — «указатель по комплексу».
+ * НАВИГАЦИОННЫЙ САЙДБАР — «указатель по комплексу» в корпусе прибора.
  *
- * Активный раздел маркируется той же сигнальной кромкой 3px, что и
- * карточки со строками реестра: один визуальный механизм на всю систему.
- * Группы разделов подписаны CAPS-метками — как секции на схеме объекта.
+ * По умолчанию — обсидиановый корпус: навигация уходит в тень, рабочие
+ * данные справа остаются на светлой поверхности. Активный раздел маркируется
+ * светящейся кромкой — тот же механизм, что у карточек и строк реестра.
+ * Группы разделов подписаны CAPS-метками, как секции на схеме объекта.
  *
- * tone: light (основной) | dark (для презентаций и полноэкранных режимов)
+ * tone: dark (основной) | light (для встраивания в светлый макет)
  */
 const TONE = {
+  dark: {
+    shell: 'on-obsidian bg-surface-obsidian border-r border-obsidian-600/60',
+    texture: true,
+    brandSub: 'text-obsidian-300',
+    brandTitle: 'text-obsidian-50',
+    groupLabel: 'text-obsidian-300',
+    item: 'text-obsidian-200 hover:bg-white/[0.055] hover:text-white',
+    itemActive: 'bg-white/[0.07] text-white',
+    rail: 'bg-beam-400',
+    railGlow: '0 0 10px 0 rgba(53, 214, 240, 0.65)',
+    icon: 'text-obsidian-400',
+    iconActive: 'text-beam-400',
+    divider: 'border-white/[0.07]',
+    footer: 'text-obsidian-300',
+    footerBg: 'bg-black/25',
+    counterActive: 'bg-beam-400/15 text-beam-300',
+    counterIdle: 'bg-white/[0.07] text-obsidian-200',
+    avatar: 'border-white/10 bg-white/[0.06] text-beam-300',
+  },
   light: {
     shell: 'bg-white border-r border-hairline',
+    texture: false,
     brandSub: 'text-ink-400',
     brandTitle: 'text-ink-900',
     groupLabel: 'text-ink-400',
     item: 'text-ink-600 hover:bg-ink-50 hover:text-ink-900',
     itemActive: 'bg-navy-50 text-navy-700',
-    rail: 'bg-navy-600',
+    rail: 'bg-beam-700',
+    railGlow: '0 0 8px 0 rgba(11, 124, 147, 0.45)',
     icon: 'text-ink-400',
-    iconActive: 'text-navy-600',
+    iconActive: 'text-beam-700',
     divider: 'border-hairline',
     footer: 'text-ink-500',
     footerBg: 'bg-ink-25',
-  },
-  dark: {
-    shell: 'bg-navy-900 border-r border-navy-800',
-    brandSub: 'text-navy-300',
-    brandTitle: 'text-white',
-    groupLabel: 'text-navy-400',
-    item: 'text-navy-200 hover:bg-navy-800 hover:text-white',
-    itemActive: 'bg-navy-800 text-white',
-    rail: 'bg-signal-500',
-    icon: 'text-navy-400',
-    iconActive: 'text-signal-400',
-    divider: 'border-navy-800',
-    footer: 'text-navy-300',
-    footerBg: 'bg-navy-950/40',
+    counterActive: 'bg-navy-100 text-navy-700',
+    counterIdle: 'bg-ink-100 text-ink-600',
+    avatar: 'border-hairline bg-white text-navy-700',
   },
 }
 
@@ -49,31 +60,45 @@ export function Sidebar({
   onNavigate,
   collapsed = false,
   onToggleCollapse,
-  tone = 'light',
+  tone = 'dark',
   role,
   className,
 }) {
-  const t = TONE[tone] ?? TONE.light
+  const t = TONE[tone] ?? TONE.dark
 
   return (
     <nav
       aria-label="Основная навигация"
       className={cn(
-        'flex h-full shrink-0 flex-col transition-[width] duration-slow ease-out',
+        'relative flex h-full shrink-0 flex-col transition-[width] duration-slow ease-decelerate',
         collapsed ? 'w-sidebar-collapsed' : 'w-sidebar',
         t.shell,
         className,
       )}
     >
+      {t.texture ? (
+        <>
+          <span
+            aria-hidden="true"
+            className="dot-grid pointer-events-none absolute inset-0 opacity-60"
+          />
+          <span aria-hidden="true" className="bloom-beam pointer-events-none absolute inset-0" />
+        </>
+      ) : null}
+
       {/* Бренд-блок: табличка комплекса + название системы */}
       <div
         className={cn(
-          'flex h-topbar shrink-0 items-center gap-2.5 border-b px-3',
+          'relative flex h-topbar shrink-0 items-center gap-2.5 border-b px-3',
           t.divider,
           collapsed && 'justify-center px-0',
         )}
       >
-        <HallPlate tone={tone === 'dark' ? 'signal' : 'navy'} size="lg" className="shrink-0">
+        <HallPlate
+          tone={tone === 'dark' ? 'beam' : 'navy'}
+          size="lg"
+          className="shrink-0"
+        >
           QEC
         </HallPlate>
         {!collapsed ? (
@@ -89,7 +114,7 @@ export function Sidebar({
       </div>
 
       {/* Разделы */}
-      <div className="min-h-0 flex-1 overflow-y-auto py-2">
+      <div className="relative min-h-0 flex-1 overflow-y-auto py-2">
         {groups.map((group, groupIndex) => (
           <div key={group.key} className={cn(groupIndex > 0 && 'mt-4')}>
             {!collapsed ? (
@@ -116,7 +141,8 @@ export function Sidebar({
                       aria-current={active ? 'page' : undefined}
                       title={collapsed ? item.label : undefined}
                       className={cn(
-                        'focus-ring relative flex h-8 w-full items-center gap-2.5 rounded px-2 text-base transition-colors duration-fast',
+                        'relative flex h-8 w-full items-center gap-2.5 rounded px-2 text-base transition-colors duration-fast',
+                        tone === 'dark' ? 'focus-ring-dark' : 'focus-ring',
                         collapsed && 'justify-center px-0',
                         active ? cn(t.itemActive, 'font-medium') : t.item,
                       )}
@@ -124,16 +150,17 @@ export function Sidebar({
                       {active ? (
                         <span
                           aria-hidden="true"
-                          className={cn(
-                            'absolute left-0 h-4 w-[3px] rounded-r-sm',
-                            t.rail,
-                          )}
+                          className={cn('absolute left-0 h-4 w-rail rounded-r-sm', t.rail)}
+                          style={{ boxShadow: t.railGlow }}
                         />
                       ) : null}
                       <Icon
                         name={item.icon}
                         size={15}
-                        className={active ? t.iconActive : t.icon}
+                        className={cn(
+                          'transition-colors duration-fast',
+                          active ? t.iconActive : t.icon,
+                        )}
                       />
                       {!collapsed ? (
                         <>
@@ -141,8 +168,7 @@ export function Sidebar({
                           {item.count != null ? (
                             <Counter
                               value={item.count}
-                              tone={active ? 'navy' : 'neutral'}
-                              className={tone === 'dark' ? 'bg-navy-700 text-navy-100' : undefined}
+                              className={active ? t.counterActive : t.counterIdle}
                             />
                           ) : null}
                         </>
@@ -157,15 +183,13 @@ export function Sidebar({
       </div>
 
       {/* Подвал: текущая роль + свернуть */}
-      <div className={cn('shrink-0 border-t', t.divider, t.footerBg)}>
+      <div className={cn('relative shrink-0 border-t', t.divider, t.footerBg)}>
         {!collapsed && role ? (
           <div className="flex items-center gap-2 px-3 py-2.5">
             <span
               className={cn(
-                'flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-2xs font-semibold',
-                tone === 'dark'
-                  ? 'border-navy-700 bg-navy-800 text-navy-200'
-                  : 'border-hairline bg-white text-navy-700',
+                'flex h-7 w-7 shrink-0 items-center justify-center rounded-full border',
+                t.avatar,
               )}
             >
               <Icon name={role.icon} size={13} />
@@ -174,7 +198,7 @@ export function Sidebar({
               <p
                 className={cn(
                   'truncate text-xs font-medium',
-                  tone === 'dark' ? 'text-white' : 'text-ink-800',
+                  tone === 'dark' ? 'text-obsidian-50' : 'text-ink-800',
                 )}
               >
                 {role.person}
@@ -187,7 +211,8 @@ export function Sidebar({
           type="button"
           onClick={onToggleCollapse}
           className={cn(
-            'focus-ring flex h-8 w-full items-center gap-2.5 px-3 text-xs transition-colors duration-fast',
+            'flex h-8 w-full items-center gap-2.5 px-3 text-xs transition-colors duration-fast',
+            tone === 'dark' ? 'focus-ring-dark' : 'focus-ring',
             collapsed && 'justify-center px-0',
             t.item,
           )}
