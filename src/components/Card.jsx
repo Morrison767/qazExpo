@@ -175,6 +175,7 @@ export function StatTile({
   hint,
   instrument,
   status,
+  onClick,
   className,
 }) {
   const deltaTones = {
@@ -183,11 +184,17 @@ export function StatTile({
     neutral: 'text-content-muted bg-surface-muted border-hairline',
   }
 
+  const Component = onClick ? 'button' : 'div'
+
   return (
-    <div
+    <Component
+      type={onClick ? 'button' : undefined}
+      onClick={onClick}
       className={cn(
-        'relative overflow-hidden rounded-md border border-hairline bg-surface-raised p-3.5',
+        'relative overflow-hidden rounded-md border border-hairline bg-surface-raised p-3.5 text-left',
         status && 'pl-rail',
+        onClick &&
+          'focus-ring group transition-all duration-base ease-decelerate hover:-translate-y-px hover:border-hairline-strong hover:shadow-card-hover',
         className,
       )}
     >
@@ -209,6 +216,13 @@ export function StatTile({
             {label}
           </span>
         </div>
+        {onClick ? (
+          <Icon
+            name="arrow-right"
+            size={13}
+            className="shrink-0 text-content-faint opacity-0 transition-opacity duration-fast group-hover:opacity-100"
+          />
+        ) : null}
       </div>
 
       <div className="mt-3 flex items-end justify-between gap-3">
@@ -243,7 +257,7 @@ export function StatTile({
           {hint ? <span className="truncate text-xs text-content-faint">{hint}</span> : null}
         </div>
       ) : null}
-    </div>
+    </Component>
   )
 }
 
