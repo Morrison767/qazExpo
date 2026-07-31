@@ -139,7 +139,7 @@ export function ButtonsSection() {
               ['link', 'Переход к связанному объекту внутри текста'],
             ]}
           />
-          <p className="mt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-3 text-xs leading-normal text-content-faint">
             Порядок в футере панелей: слева — деструктивное, справа — primary, между ними — отмена.
             Так подтверждающее действие всегда в одном месте, а деструктивное не оказывается под
             курсором случайно.

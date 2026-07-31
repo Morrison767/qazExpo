@@ -40,7 +40,7 @@ export function Modal({
   return createPortal(
     <div className="fixed inset-0 z-modal flex items-start justify-center overflow-y-auto p-4 sm:p-8">
       <div
-        className="fixed inset-0 animate-fade-in bg-obsidian-950/50 backdrop-blur-[2px]"
+        className="fixed inset-0 animate-fade-in bg-overlay backdrop-blur-[2px]"
         onClick={closeOnOverlay ? handleClose : undefined}
         aria-hidden="true"
       />
@@ -63,8 +63,8 @@ export function Modal({
                 {status ? <StatusBadge status={status} size="sm" /> : null}
               </div>
             ) : null}
-            <h2 className="truncate text-xl font-semibold leading-snug text-ink-900">{title}</h2>
-            {subtitle ? <p className="mt-0.5 text-base text-ink-500">{subtitle}</p> : null}
+            <h2 className="truncate text-xl font-semibold leading-snug text-content">{title}</h2>
+            {subtitle ? <p className="mt-0.5 text-base text-content-subtle">{subtitle}</p> : null}
           </div>
           <IconButton icon="x" label="Закрыть" size="sm" onClick={handleClose} className="-mr-1.5" />
         </div>
@@ -72,7 +72,7 @@ export function Modal({
         <div className="max-h-[65vh] overflow-y-auto px-5 py-4">{children}</div>
 
         {footer ? (
-          <div className="flex items-center justify-end gap-2 rounded-b-lg border-t border-hairline bg-ink-25 px-5 py-3">
+          <div className="flex items-center justify-end gap-2 rounded-b-lg border-t border-hairline bg-surface-sunken px-5 py-3">
             {footer}
           </div>
         ) : null}
@@ -114,7 +114,7 @@ export function SidePanel({
   return createPortal(
     <div className="fixed inset-0 z-overlay flex justify-end">
       <div
-        className="absolute inset-0 animate-fade-in bg-obsidian-950/40 backdrop-blur-[2px]"
+        className="absolute inset-0 animate-fade-in bg-overlay backdrop-blur-[2px]"
         onClick={handleClose}
         aria-hidden="true"
       />
@@ -129,7 +129,7 @@ export function SidePanel({
         )}
       >
         {/* Шапка панели — корпус прибора: объект «поднят» из реестра */}
-        <header className="on-obsidian relative shrink-0 overflow-hidden bg-surface-obsidian px-5 pb-3.5 pt-4">
+        <header className="on-nav relative shrink-0 overflow-hidden bg-surface-nav px-5 pb-3.5 pt-4">
           <span
             aria-hidden="true"
             className="dot-grid pointer-events-none absolute inset-0 opacity-50"
@@ -139,20 +139,20 @@ export function SidePanel({
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 {plate ? <HallPlate tone="beam">{plate}</HallPlate> : null}
-                {status ? <StatusBadge status={status} size="sm" variant="dark" /> : null}
+                {status ? <StatusBadge status={status} size="sm" /> : null}
               </div>
-              <h2 className="mt-1.5 truncate text-xl font-semibold leading-snug text-obsidian-50">
+              <h2 className="mt-1.5 truncate text-xl font-semibold leading-snug text-nav-fg">
                 {title}
               </h2>
               {subtitle ? (
-                <p className="mt-0.5 text-base text-obsidian-200">{subtitle}</p>
+                <p className="mt-0.5 text-base text-nav-muted">{subtitle}</p>
               ) : null}
             </div>
             <IconButton
               icon="x"
               label="Закрыть панель"
               size="sm"
-              variant="ghost-dark"
+              variant="ghost-nav"
               onClick={handleClose}
               className="-mr-1.5"
             />

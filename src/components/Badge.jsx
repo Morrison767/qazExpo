@@ -7,9 +7,9 @@ import { Icon } from './Icon'
  * Статусы всегда через <StatusBadge> — палитра статусов не переиспользуется.
  */
 const TONES = {
-  neutral: 'bg-ink-100 text-ink-700 border-transparent',
-  outline: 'bg-white text-ink-600 border-hairline-strong',
-  navy: 'bg-navy-50 text-navy-700 border-navy-100',
+  neutral: 'bg-surface-muted text-content-muted border-transparent',
+  outline: 'bg-surface text-content-subtle border-hairline-strong',
+  navy: 'bg-accent-soft text-accent-strong border-accent-line',
   signal: 'bg-signal-50 text-signal-800 border-signal-200',
 }
 
@@ -38,9 +38,9 @@ export function Badge({ tone = 'neutral', size = 'md', icon, className, children
 /** Счётчик — для табов, навигации и уведомлений */
 export function Counter({ value, tone = 'neutral', className }) {
   const tones = {
-    neutral: 'bg-ink-100 text-ink-600',
-    navy: 'bg-navy-100 text-navy-700',
-    beam: 'bg-beam-100 text-beam-800',
+    neutral: 'bg-surface-muted text-content-subtle',
+    navy: 'bg-accent-soft text-accent-strong',
+    beam: 'bg-accent-soft text-accent-strong',
     danger: 'bg-danger-600 text-white',
     signal: 'bg-signal-600 text-white',
   }

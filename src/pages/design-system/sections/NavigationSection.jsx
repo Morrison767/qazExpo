@@ -34,7 +34,7 @@ export function NavigationSection() {
         tone="canvas"
       >
         <div className="flex flex-wrap gap-4">
-          <div className="h-[30rem] overflow-hidden rounded-md border border-obsidian-600/70 shadow-card-dark">
+          <div className="h-[30rem] overflow-hidden rounded-md border border-nav-line shadow-card">
             <Sidebar
               groups={navForRole(roleKey)}
               activePath="/design-system"
@@ -42,7 +42,7 @@ export function NavigationSection() {
               onNavigate={() => {}}
             />
           </div>
-          <div className="h-[30rem] overflow-hidden rounded-md border border-obsidian-600/70 shadow-card-dark">
+          <div className="h-[30rem] overflow-hidden rounded-md border border-nav-line shadow-card">
             <Sidebar
               groups={navForRole(roleKey)}
               activePath="/events"
@@ -72,12 +72,12 @@ export function NavigationSection() {
                     onClick={() => setDemoRole(role.key)}
                     className={`focus-ring flex w-full items-center gap-2 rounded border px-2 py-1.5 text-left transition-colors duration-fast ${
                       demoRole === role.key
-                        ? 'border-navy-200 bg-navy-50'
-                        : 'border-hairline bg-white hover:bg-ink-50'
+                        ? 'border-accent-line bg-accent-soft'
+                        : 'border-hairline bg-surface hover:bg-surface-sunken'
                     }`}
                   >
-                    <Icon name={role.icon} size={13} className="shrink-0 text-navy-600" />
-                    <span className="min-w-0 flex-1 truncate text-sm text-ink-800">
+                    <Icon name={role.icon} size={13} className="shrink-0 text-accent-fg" />
+                    <span className="min-w-0 flex-1 truncate text-sm text-content">
                       {role.short}
                     </span>
                     <Counter value={count} tone={demoRole === role.key ? 'navy' : 'neutral'} />
@@ -85,8 +85,8 @@ export function NavigationSection() {
                 )
               })}
             </div>
-            <div className="mt-3 rounded border border-hairline bg-white p-2.5">
-              <p className="text-2xs font-semibold uppercase tracking-label text-ink-400">
+            <div className="mt-3 rounded border border-hairline bg-surface p-2.5">
+              <p className="text-2xs font-semibold uppercase tracking-label text-content-faint">
                 Доступно роли «{getRole(demoRole).short}»
               </p>
               <div className="mt-1.5 flex flex-wrap gap-1">
@@ -94,7 +94,7 @@ export function NavigationSection() {
                   g.items.map((item) => (
                     <span
                       key={item.key}
-                      className="inline-flex items-center gap-1 rounded-sm border border-hairline bg-ink-25 px-1.5 py-0.5 text-2xs text-ink-600"
+                      className="inline-flex items-center gap-1 rounded-sm border border-hairline bg-surface-sunken px-1.5 py-0.5 text-2xs text-content-muted"
                     >
                       <Icon name={item.icon} size={10} />
                       {item.label}
@@ -109,7 +109,7 @@ export function NavigationSection() {
 
       <DemoBlock title="Топбар и переключатель роли" note="Демо-режим прототипа">
         <div className="overflow-hidden rounded-md border border-hairline shadow-card">
-          <div className="on-obsidian relative">
+          <div className="on-nav relative">
             <Topbar
               roleKey={roleKey}
               onRoleChange={setRole}
@@ -151,7 +151,7 @@ export function NavigationSection() {
             }
           />
         </div>
-        <p className="mt-3 max-w-3xl text-xs leading-normal text-ink-400">
+        <p className="mt-3 max-w-3xl text-xs leading-normal text-content-faint">
           Переключатель роли помечен табличкой «ДЕМО» и существует только в прототипе: в
           продуктивной системе роль приходит из Active Directory (раздел 6 ТЗ).
         </p>
@@ -267,7 +267,7 @@ export function NavigationSection() {
           <DemoLabel className="mt-5">Таблички в навигации</DemoLabel>
           <div className="flex flex-wrap items-center gap-2">
             <HallPlate size="lg">QEC</HallPlate>
-            <span className="text-xs text-ink-400">
+            <span className="text-xs text-content-faint">
               бренд-блок сайдбара — та же табличка, что у залов и договоров
             </span>
           </div>

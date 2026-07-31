@@ -28,8 +28,8 @@ const EVENT_COLUMNS = [
     sortable: true,
     render: (row) => (
       <div className="min-w-0">
-        <p className="truncate font-medium text-ink-900">{row.name}</p>
-        <p className="truncate text-xs text-ink-400">
+        <p className="truncate font-medium text-content">{row.name}</p>
+        <p className="truncate text-xs text-content-faint">
           {row.type} · {row.tenant}
         </p>
       </div>
@@ -157,7 +157,7 @@ export function TableSection() {
                   className="w-40"
                 />
                 {selected.length > 0 ? (
-                  <span className="text-xs tabular-nums text-navy-700">
+                  <span className="text-xs tabular-nums text-accent-strong">
                     Выбрано: {selected.length}
                   </span>
                 ) : null}
@@ -217,7 +217,7 @@ export function TableSection() {
         </div>
 
         <TableCaption>
-          <span className="font-semibold uppercase tracking-label text-ink-400">Кромка статуса:</span>
+          <span className="font-semibold uppercase tracking-label text-content-faint">Кромка статуса:</span>
           {STATUS_KEYS.slice(0, 6).map((key) => (
             <StatusDot key={key} status={key} withLabel />
           ))}

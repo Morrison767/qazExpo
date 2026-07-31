@@ -30,7 +30,7 @@ export function StatusSection() {
             return (
               <div
                 key={key}
-                className="relative overflow-hidden rounded-md border border-hairline bg-white pl-rail"
+                className="relative overflow-hidden rounded-md border border-hairline bg-surface pl-rail"
               >
                 <span
                   aria-hidden="true"
@@ -44,10 +44,10 @@ export function StatusSection() {
                       {key}
                     </HallPlate>
                   </div>
-                  <p className="mt-2 text-xs leading-snug text-ink-500">{meta.description}</p>
-                  <div className="mt-2.5 flex items-center gap-2 border-t border-hairline-soft pt-2 font-mono text-2xs text-ink-400">
+                  <p className="mt-2 text-xs leading-snug text-content-subtle">{meta.description}</p>
+                  <div className="mt-2.5 flex items-center gap-2 border-t border-hairline-soft pt-2 font-mono text-2xs text-content-faint">
                     <span>{meta.colors.base}</span>
-                    <span className="text-ink-300">·</span>
+                    <span className="text-content-faint">·</span>
                     <span>{formatRatio(meta.colors.text, meta.colors.soft)}</span>
                   </div>
                 </div>
@@ -88,7 +88,7 @@ export function StatusSection() {
             ))}
           </div>
         </div>
-        <p className="mt-4 max-w-3xl border-t border-hairline-soft pt-3 text-xs leading-normal text-ink-400">
+        <p className="mt-4 max-w-3xl border-t border-hairline-soft pt-3 text-xs leading-normal text-content-faint">
           При дейтеранопии «Подтверждено» и «Оплачено» сближаются по тону, при тританопии — «Не
           оплачено» и «Конфликт». Именно поэтому подбор восьми «идеально различимых» оттенков не
           решает задачу, а иконка-форма и подпись — решают. В ч/б печати статусы читаются по глифу
@@ -126,7 +126,7 @@ export function StatusSection() {
             <StatusBadge status="confirmed" size="lg" />
             <span className="mx-1 h-4 w-px bg-hairline" />
             <StatusBadge status="review" size="md" withIcon={false} />
-            <span className="text-xs text-ink-400">без иконки — только в плотных списках</span>
+            <span className="text-xs text-content-faint">без иконки — только в плотных списках</span>
           </div>
 
           <DemoLabel className="mt-4">Точки — легенды календаря</DemoLabel>
@@ -142,8 +142,8 @@ export function StatusSection() {
             {STATUS_MAPPING.map((group) => (
               <div key={group.domain}>
                 <div className="mb-1.5 flex items-baseline gap-2">
-                  <p className="text-base font-semibold text-ink-900">{group.domain}</p>
-                  <p className="text-xs text-ink-400">{group.field}</p>
+                  <p className="text-base font-semibold text-content">{group.domain}</p>
+                  <p className="text-xs text-content-faint">{group.field}</p>
                 </div>
                 <div className="space-y-1">
                   {group.values.map((value) => (
@@ -151,7 +151,7 @@ export function StatusSection() {
                       key={value.label}
                       className="flex items-center justify-between gap-3 border-b border-hairline-soft py-1 last:border-b-0"
                     >
-                      <span className="min-w-0 truncate text-sm text-ink-700">{value.label}</span>
+                      <span className="min-w-0 truncate text-sm text-content-muted">{value.label}</span>
                       <StatusBadge status={value.token} size="sm" />
                     </div>
                   ))}
@@ -159,7 +159,7 @@ export function StatusSection() {
               </div>
             ))}
           </div>
-          <p className="mt-4 border-t border-hairline pt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-4 border-t border-hairline pt-3 text-xs leading-normal text-content-faint">
             Один токен обслуживает несколько сущностей: «Статус договора» и «Статус оплаты» — разные
             колонки и никогда не соседствуют в одной ячейке, поэтому переиспользование цвета не
             создаёт двусмысленности и удерживает палитру в границах восьми значений.

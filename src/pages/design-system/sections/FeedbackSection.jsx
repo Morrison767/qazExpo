@@ -116,7 +116,7 @@ export function FeedbackSection() {
               ['info', 'Новая заявка, корректировка от арендатора, изменение даты'],
             ]}
           />
-          <p className="mt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-3 text-xs leading-normal text-content-faint">
             Тост живёт 5 секунд. Уведомление, требующее решения (выдача пропусков, согласование
             договора), автозакрытие не получает и дублируется в центре уведомлений и на e-mail.
           </p>

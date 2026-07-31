@@ -4,13 +4,16 @@ import { navForRole, navItemByPath } from '@/design/navigation'
 import { useRole } from './RoleContext'
 import { Sidebar } from '@/components/Sidebar'
 import { Topbar } from '@/components/Topbar'
+import { useToast } from '@/components/Toast'
 
 /**
  * Каркас приложения: сайдбар + топбар + область контента.
- * Состав разделов зависит от активной роли (демо-переключатель в топбаре).
+ * Состав разделов зависит от активной роли (демо-переключатель в топбаре),
+ * оформление каркаса — от активной темы (переключатель там же).
  */
 export function AppShell({ children, breadcrumbs }) {
   const { roleKey, role, setRole } = useRole()
+  const toast = useToast()
   const navigate = useNavigate()
   const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
@@ -40,9 +43,15 @@ export function AppShell({ children, breadcrumbs }) {
           roleKey={roleKey}
           onRoleChange={setRole}
           onToggleSidebar={() => setCollapsed((v) => !v)}
-          notifications={4}
+          notifications={12}
           searchValue={search}
           onSearch={setSearch}
+          onCreate={() =>
+            toast.info({
+              title: 'Создание объекта',
+              description: 'Формы создания появятся на следующем шаге прототипа.',
+            })
+          }
         />
         <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
       </div>

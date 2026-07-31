@@ -25,23 +25,25 @@ export function Field({
         <div className="flex items-baseline justify-between gap-2">
           <label
             htmlFor={htmlFor}
-            className="text-2xs font-semibold uppercase tracking-label text-ink-500"
+            className="text-2xs font-semibold uppercase tracking-label text-content-subtle"
           >
             {label}
-            {required ? <span className="ml-1 text-danger-600">*</span> : null}
-            {optional ? <span className="ml-1 font-normal text-ink-400">не обяз.</span> : null}
+            {required ? <span className="ml-1 text-danger-500">*</span> : null}
+            {optional ? (
+              <span className="ml-1 font-normal text-content-faint">не обяз.</span>
+            ) : null}
           </label>
           {labelSuffix}
         </div>
       ) : null}
       {children}
       {error ? (
-        <p className="flex items-start gap-1 text-xs text-danger-700">
+        <p className="flex items-start gap-1 text-xs text-status-conflict-text">
           <Icon name="alert-circle" size={12} className="mt-px" />
           <span>{error}</span>
         </p>
       ) : hint ? (
-        <p className="text-xs text-ink-400">{hint}</p>
+        <p className="text-xs text-content-faint">{hint}</p>
       ) : null}
     </div>
   )
@@ -51,10 +53,10 @@ export function Field({
    Базовые классы контролов — единая геометрия для input/select/textarea
    ───────────────────────────────────────────────────────────── */
 const CONTROL_BASE =
-  'w-full appearance-none border bg-white text-ink-900 transition-all duration-fast placeholder:text-ink-400 ' +
-  'hover:border-ink-400 focus:border-beam-500 focus:outline-none focus:ring-2 focus:ring-beam-400/25 focus:shadow-beam-sm ' +
-  'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-50 disabled:text-ink-400 disabled:shadow-none ' +
-  'read-only:bg-ink-25 read-only:text-ink-600'
+  'w-full appearance-none border bg-surface text-content transition-all duration-fast placeholder:text-content-faint ' +
+  'hover:border-content-faint focus:border-accent focus:outline-none focus:shadow-beam-sm ' +
+  'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-surface-muted disabled:text-content-faint disabled:shadow-none ' +
+  'read-only:bg-surface-sunken read-only:text-content-muted'
 
 const CONTROL_SIZES = {
   sm: 'h-control-sm rounded-sm px-2 text-xs',
@@ -73,7 +75,7 @@ function controlClasses(size, invalid, extra) {
     CONTROL_BASE,
     CONTROL_SIZES[size] ?? CONTROL_SIZES.md,
     invalid
-      ? 'border-danger-400 hover:border-danger-500 focus:border-danger-500 focus:ring-danger-100'
+      ? 'border-status-conflict-border hover:border-status-conflict-base focus:border-status-conflict-base'
       : 'border-hairline-strong',
     extra,
   )
@@ -114,14 +116,14 @@ export const Input = forwardRef(function Input(
           name={iconLeft}
           size={size === 'sm' ? 13 : 14}
           className={cn(
-            'pointer-events-none absolute text-ink-400',
+            'pointer-events-none absolute text-content-faint',
             size === 'sm' ? 'left-2' : 'left-2.5',
           )}
         />
       ) : null}
       {input}
       {hasRight ? (
-        <span className="pointer-events-none absolute right-2.5 text-xs text-ink-400">
+        <span className="pointer-events-none absolute right-2.5 text-xs text-content-faint">
           {suffix}
         </span>
       ) : null}
@@ -140,7 +142,7 @@ export const SearchInput = forwardRef(function SearchInput(
       <Icon
         name="search"
         size={14}
-        className="pointer-events-none absolute left-2.5 text-ink-400"
+        className="pointer-events-none absolute left-2.5 text-content-faint"
       />
       <input
         ref={ref}
@@ -154,12 +156,12 @@ export const SearchInput = forwardRef(function SearchInput(
           type="button"
           onClick={onClear}
           aria-label="Очистить поиск"
-          className="focus-ring absolute right-2 flex h-4 w-4 items-center justify-center rounded-sm text-ink-400 hover:bg-ink-100 hover:text-ink-700"
+          className="focus-ring absolute right-2 flex h-4 w-4 items-center justify-center rounded-sm text-content-faint hover:bg-surface-muted hover:text-content"
         >
           <Icon name="x" size={11} />
         </button>
       ) : hint ? (
-        <kbd className="pointer-events-none absolute right-2 rounded-sm border border-hairline bg-ink-50 px-1 py-px font-mono text-2xs text-ink-400">
+        <kbd className="pointer-events-none absolute right-2 rounded-sm border border-hairline bg-surface-sunken px-1 py-px font-mono text-2xs text-content-faint">
           {hint}
         </kbd>
       ) : null}
@@ -182,7 +184,7 @@ export const Textarea = forwardRef(function Textarea(
         TEXTAREA_SIZES[size] ?? TEXTAREA_SIZES.md,
         'min-h-16 resize-y leading-snug',
         invalid
-          ? 'border-danger-400 hover:border-danger-500 focus:border-danger-500 focus:ring-danger-100'
+          ? 'border-status-conflict-border hover:border-status-conflict-base focus:border-status-conflict-base'
           : 'border-hairline-strong',
         className,
       )}
@@ -204,7 +206,7 @@ export const Select = forwardRef(function Select(
         className={controlClasses(
           size,
           invalid,
-          cn('cursor-pointer pr-8 [&:invalid]:text-ink-400', className),
+          cn('cursor-pointer pr-8 [&:invalid]:text-content-faint', className),
         )}
         {...rest}
       >
@@ -230,7 +232,7 @@ export const Select = forwardRef(function Select(
       <Icon
         name="chevron-down"
         size={13}
-        className="pointer-events-none absolute right-2.5 text-ink-400"
+        className="pointer-events-none absolute right-2.5 text-content-faint"
       />
     </div>
   )
@@ -267,7 +269,7 @@ export function DateRangeField({
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <DateField size={size} withTime={withTime} invalid={invalid} {...fromProps} />
-      <span className="shrink-0 text-ink-400">—</span>
+      <span className="shrink-0 text-content-faint">—</span>
       <DateField size={size} withTime={withTime} invalid={invalid} {...toProps} />
     </div>
   )
@@ -299,11 +301,11 @@ export const Checkbox = forwardRef(function Checkbox(
           id={inputId}
           type="checkbox"
           className={cn(
-            'peer h-4 w-4 cursor-pointer appearance-none rounded-xs border border-hairline-strong bg-white transition-all duration-fast',
-            'hover:border-beam-500',
-            'checked:border-beam-700 checked:bg-beam-700 checked:shadow-beam-sm indeterminate:border-beam-700 indeterminate:bg-beam-700',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beam-400/70 focus-visible:ring-offset-1',
-            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-100 disabled:shadow-none',
+            'peer h-4 w-4 cursor-pointer appearance-none rounded-xs border border-hairline-strong bg-surface transition-all duration-fast',
+            'hover:border-accent',
+            'checked:border-accent checked:bg-accent checked:shadow-beam-sm indeterminate:border-accent indeterminate:bg-accent',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1',
+            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-surface-muted disabled:shadow-none',
           )}
           {...rest}
         />
@@ -311,14 +313,14 @@ export const Checkbox = forwardRef(function Checkbox(
           name={indeterminate ? 'minus' : 'check'}
           size={11}
           strokeWidth={2.4}
-          className="pointer-events-none absolute hidden text-white peer-checked:block peer-indeterminate:block"
+          className="pointer-events-none absolute hidden text-content-inverse peer-checked:block peer-indeterminate:block"
         />
       </span>
       {label || description ? (
         <label htmlFor={inputId} className="cursor-pointer select-none leading-tight">
-          <span className="block text-base text-ink-800">{label}</span>
+          <span className="block text-base text-content">{label}</span>
           {description ? (
-            <span className="mt-0.5 block text-xs text-ink-400">{description}</span>
+            <span className="mt-0.5 block text-xs text-content-faint">{description}</span>
           ) : null}
         </label>
       ) : null}
@@ -341,20 +343,20 @@ export const Radio = forwardRef(function Radio(
           id={inputId}
           type="radio"
           className={cn(
-            'peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-hairline-strong bg-white transition-all duration-fast',
-            'hover:border-beam-500 checked:border-beam-700 checked:bg-beam-700 checked:shadow-beam-sm',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-beam-400/70 focus-visible:ring-offset-1',
-            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-ink-100 disabled:shadow-none',
+            'peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-hairline-strong bg-surface transition-all duration-fast',
+            'hover:border-accent checked:border-accent checked:bg-accent checked:shadow-beam-sm',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-1',
+            'disabled:cursor-not-allowed disabled:border-hairline disabled:bg-surface-muted disabled:shadow-none',
           )}
           {...rest}
         />
-        <span className="pointer-events-none absolute hidden h-1.5 w-1.5 rounded-full bg-white peer-checked:block" />
+        <span className="pointer-events-none absolute hidden h-1.5 w-1.5 rounded-full bg-content-inverse peer-checked:block" />
       </span>
       {label || description ? (
         <label htmlFor={inputId} className="cursor-pointer select-none leading-tight">
-          <span className="block text-base text-ink-800">{label}</span>
+          <span className="block text-base text-content">{label}</span>
           {description ? (
-            <span className="mt-0.5 block text-xs text-ink-400">{description}</span>
+            <span className="mt-0.5 block text-xs text-content-faint">{description}</span>
           ) : null}
         </label>
       ) : null}
@@ -400,11 +402,11 @@ export const Switch = forwardRef(function Switch({ label, className, id, ...rest
         className="relative inline-flex h-4.5 w-8 shrink-0 cursor-pointer items-center"
       >
         <input ref={ref} id={inputId} type="checkbox" className="peer sr-only" {...rest} />
-        <span className="absolute inset-0 rounded-full bg-ink-300 transition-all duration-base ease-spring peer-checked:bg-beam-700 peer-checked:shadow-beam-sm peer-disabled:bg-ink-200 peer-focus-visible:ring-2 peer-focus-visible:ring-beam-400/70 peer-focus-visible:ring-offset-1" />
-        <span className="absolute left-0.5 h-3.5 w-3.5 rounded-full bg-white shadow-sm transition-transform duration-base ease-spring peer-checked:translate-x-3.5" />
+        <span className="absolute inset-0 rounded-full bg-hairline-strong transition-all duration-base ease-spring peer-checked:bg-accent peer-checked:shadow-beam-sm peer-disabled:opacity-50 peer-focus-visible:ring-2 peer-focus-visible:ring-accent peer-focus-visible:ring-offset-1" />
+        <span className="absolute left-0.5 h-3.5 w-3.5 rounded-full bg-surface shadow-sm transition-transform duration-base ease-spring peer-checked:translate-x-3.5" />
       </label>
       {label ? (
-        <label htmlFor={inputId} className="cursor-pointer select-none text-base text-ink-800">
+        <label htmlFor={inputId} className="cursor-pointer select-none text-base text-content">
           {label}
         </label>
       ) : null}

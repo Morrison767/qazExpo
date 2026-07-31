@@ -19,7 +19,7 @@ export function Breadcrumbs({ items, onDark = false, className }) {
                 <Icon
                   name="chevron-right"
                   size={12}
-                  className={cn('shrink-0', onDark ? 'text-obsidian-400' : 'text-ink-300')}
+                  className={cn('shrink-0', onDark ? 'text-nav-faint' : 'text-content-faint')}
                 />
               ) : null}
               {isLast ? (
@@ -33,7 +33,7 @@ export function Breadcrumbs({ items, onDark = false, className }) {
                     aria-current="page"
                     className={cn(
                       'truncate text-base font-medium',
-                      onDark ? 'text-obsidian-50' : 'text-ink-900',
+                      onDark ? 'text-nav-fg' : 'text-content',
                     )}
                   >
                     {item.label}
@@ -53,8 +53,8 @@ export function Breadcrumbs({ items, onDark = false, className }) {
                   className={cn(
                     'inline-flex shrink-0 items-center gap-1 rounded-sm px-0.5 text-base transition-colors duration-fast',
                     onDark
-                      ? 'focus-ring-dark text-obsidian-200 hover:text-beam-300'
-                      : 'focus-ring text-ink-500 hover:text-beam-700',
+                      ? 'focus-ring-nav text-nav-muted hover:text-accent-strong'
+                      : 'focus-ring text-content-subtle hover:text-accent-fg',
                   )}
                 >
                   {index === 0 && item.icon ? <Icon name={item.icon} size={13} /> : null}

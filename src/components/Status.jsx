@@ -9,14 +9,14 @@ import { Icon } from './Icon'
  *
  * StatusRail — кромка 3px слева от любого объекта, несущего статус:
  * карточка, строка реестра, элемент календаря, слайд-панель, тост.
- * Кромка светится своим тоном — читается как индикатор на приборе,
- * а не как декоративная полоска. Статус считывается периферийным
- * зрением до чтения текста.
+ * Кромка светится своим тоном — читается как индикатор на приборе.
+ *
+ * Базовый цвет статуса одинаков в обеих темах (его узнают), а подложка
+ * и текст бейджа переключаются вместе с темой через CSS-переменные.
  *
  * Доступность: цвет никогда не работает один. Бейдж всегда несёт
  * иконку-форму + текстовую метку, а «конфликт» дополнительно получает
- * диагональную штриховку — единственный статус с паттерном,
- * читаемый в ч/б печати и при любой форме цветовой слепоты.
+ * диагональную штриховку — читается в ч/б и при любой цветовой слепоте.
  */
 
 /* Статические классы — Tailwind должен видеть их в исходниках */
@@ -43,14 +43,14 @@ const SOLID = {
 }
 
 const OUTLINE = {
-  draft: 'bg-white border-status-draft-border text-status-draft-text',
-  review: 'bg-white border-status-review-border text-status-review-text',
-  confirmed: 'bg-white border-status-confirmed-border text-status-confirmed-text',
-  conflict: 'bg-white border-status-conflict-border text-status-conflict-text',
-  paid: 'bg-white border-status-paid-border text-status-paid-text',
-  unpaid: 'bg-white border-status-unpaid-border text-status-unpaid-text',
-  done: 'bg-white border-status-done-border text-status-done-text',
-  void: 'bg-white border-status-void-border text-status-void-text',
+  draft: 'bg-surface border-status-draft-border text-status-draft-text',
+  review: 'bg-surface border-status-review-border text-status-review-text',
+  confirmed: 'bg-surface border-status-confirmed-border text-status-confirmed-text',
+  conflict: 'bg-surface border-status-conflict-border text-status-conflict-text',
+  paid: 'bg-surface border-status-paid-border text-status-paid-text',
+  unpaid: 'bg-surface border-status-unpaid-border text-status-unpaid-text',
+  done: 'bg-surface border-status-done-border text-status-done-text',
+  void: 'bg-surface border-status-void-border text-status-void-text',
 }
 
 const ICON_COLOR = {
@@ -95,8 +95,8 @@ const BADGE_SIZES = {
 const BADGE_ICON_SIZE = { sm: 10, md: 12, lg: 13 }
 
 /**
- * Бейдж статуса.
- * variant: soft (по умолчанию) | solid | outline | dark (на корпусе прибора)
+ * Бейдж статуса. variant: soft (по умолчанию) | solid | outline
+ * Подложка и текст в soft/outline переключаются темой автоматически.
  */
 export function StatusBadge({
   status,
@@ -109,29 +109,16 @@ export function StatusBadge({
 }) {
   const meta = getStatus(status)
   const key = meta.key
-  const isDark = variant === 'dark'
-
-  const palette = isDark
-    ? null
-    : variant === 'solid'
-      ? SOLID
-      : variant === 'outline'
-        ? OUTLINE
-        : SOFT
+  const palette = variant === 'solid' ? SOLID : variant === 'outline' ? OUTLINE : SOFT
 
   return (
     <span
       className={cn(
         'inline-flex max-w-full items-center border font-medium leading-none',
-        isDark ? 'bg-white/[0.05]' : palette[key],
+        palette[key],
         BADGE_SIZES[size] ?? BADGE_SIZES.md,
         className,
       )}
-      style={
-        isDark
-          ? { borderColor: meta.colors.glow, color: meta.colors.onDark }
-          : undefined
-      }
       title={meta.description}
       {...rest}
     >
@@ -140,7 +127,7 @@ export function StatusBadge({
           name={meta.icon}
           size={BADGE_ICON_SIZE[size] ?? 12}
           strokeWidth={1.8}
-          className={variant === 'solid' ? 'text-white' : isDark ? undefined : ICON_COLOR[key]}
+          className={variant === 'solid' ? 'text-white' : ICON_COLOR[key]}
         />
       ) : null}
       <span className="truncate">{label ?? meta.label}</span>
@@ -184,7 +171,6 @@ export function StatusDot({
   labelClassName,
   glow = true,
   pulse = false,
-  onDark = false,
 }) {
   const meta = getStatus(status)
   const dot = (
@@ -207,26 +193,21 @@ export function StatusDot({
   return (
     <span className="inline-flex items-center gap-1.5">
       {dot}
-      <span
-        className={cn('text-xs', onDark ? 'text-obsidian-200' : 'text-ink-600', labelClassName)}
-      >
-        {meta.label}
-      </span>
+      <span className={cn('text-xs text-content-muted', labelClassName)}>{meta.label}</span>
     </span>
   )
 }
 
 /** Метка-полоса для календаря: светящаяся кромка + текст в одну строку */
-export function StatusStrip({ status, children, className, onDark = false }) {
+export function StatusStrip({ status, children, className }) {
   const meta = getStatus(status)
   return (
     <div
       className={cn(
         'relative overflow-hidden rounded-sm border py-1 pl-2.5 pr-2 text-xs',
-        onDark ? 'bg-white/[0.05]' : SOFT[meta.key],
+        SOFT[meta.key],
         className,
       )}
-      style={onDark ? { borderColor: meta.colors.glow, color: meta.colors.onDark } : undefined}
     >
       <StatusRail status={status} rounded={false} />
       <div className="truncate font-medium">{children}</div>

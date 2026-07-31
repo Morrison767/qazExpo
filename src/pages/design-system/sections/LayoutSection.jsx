@@ -25,13 +25,13 @@ export function LayoutSection() {
           <div className="space-y-2">
             {SPACING_STEPS.map((step) => (
               <div key={step.token} className="flex items-center gap-3">
-                <span className="w-8 shrink-0 font-mono text-2xs text-ink-500">{step.token}</span>
-                <span className="w-10 shrink-0 font-mono text-2xs text-ink-400">{step.px}px</span>
+                <span className="w-8 shrink-0 font-mono text-2xs text-content-subtle">{step.token}</span>
+                <span className="w-10 shrink-0 font-mono text-2xs text-content-faint">{step.px}px</span>
                 <span
-                  className="h-2.5 shrink-0 rounded-xs bg-navy-200"
+                  className="h-2.5 shrink-0 rounded-xs bg-accent-line"
                   style={{ width: step.px * 2 }}
                 />
-                <span className="min-w-0 truncate text-xs text-ink-500">{step.use}</span>
+                <span className="min-w-0 truncate text-xs text-content-subtle">{step.use}</span>
               </div>
             ))}
           </div>
@@ -44,18 +44,18 @@ export function LayoutSection() {
               .map(([key, value]) => (
                 <div key={key}>
                   <div
-                    className="flex h-14 items-end justify-start border border-hairline-strong bg-ink-50 p-1.5"
+                    className="flex h-14 items-end justify-start border border-hairline-strong bg-surface-sunken p-1.5"
                     style={{ borderRadius: value }}
                   >
-                    <span className="font-mono text-2xs text-ink-400">{value}</span>
+                    <span className="font-mono text-2xs text-content-faint">{value}</span>
                   </div>
-                  <p className="mt-1.5 font-mono text-2xs text-ink-700">
+                  <p className="mt-1.5 font-mono text-2xs text-content-muted">
                     {key === 'DEFAULT' ? 'rounded' : `rounded-${key}`}
                   </p>
                 </div>
               ))}
           </div>
-          <p className="mt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-3 text-xs leading-normal text-content-faint">
             4px — контролы, бейджи, таблички. 6px — карточки и таблицы. 8px — модальные окна и
             панели. Крупные скругления исключены: институциональный тон, а не потребительское
             приложение.
@@ -68,14 +68,14 @@ export function LayoutSection() {
           {['xs', 'sm', 'DEFAULT', 'md', 'lg', 'xl'].map((key) => (
             <div key={key}>
               <div
-                className="flex h-20 items-end rounded-md border border-hairline bg-white p-2"
+                className="flex h-20 items-end rounded-md border border-hairline bg-surface p-2"
                 style={{ boxShadow: boxShadow[key] }}
               >
-                <span className="font-mono text-2xs text-ink-400">
+                <span className="font-mono text-2xs text-content-faint">
                   {key === 'DEFAULT' ? 'shadow' : `shadow-${key}`}
                 </span>
               </div>
-              <p className="mt-1.5 text-2xs leading-snug text-ink-500">
+              <p className="mt-1.5 text-2xs leading-snug text-content-subtle">
                 {
                   {
                     xs: 'Карточки, кнопки в покое',
@@ -117,9 +117,9 @@ export function LayoutSection() {
                 key={hall}
                 className="flex h-row items-center gap-3 border-b border-hairline-soft px-3 text-sm last:border-b-0"
               >
-                <span className="font-mono text-xs text-ink-900">{hall}</span>
-                <span className="min-w-0 flex-1 truncate text-ink-700">Занято · монтаж</span>
-                <span className="tabular-nums text-ink-500">14.03.2026</span>
+                <span className="font-mono text-xs text-content">{hall}</span>
+                <span className="min-w-0 flex-1 truncate text-content-muted">Занято · монтаж</span>
+                <span className="tabular-nums text-content-subtle">14.03.2026</span>
               </div>
             ))}
           </div>
@@ -131,13 +131,13 @@ export function LayoutSection() {
                 key={hall}
                 className="flex h-row-lg items-center gap-3 border-b border-hairline-soft px-3.5 text-base last:border-b-0"
               >
-                <span className="font-mono text-xs text-ink-900">{hall}</span>
-                <span className="min-w-0 flex-1 truncate text-ink-700">Занято · монтаж</span>
-                <span className="tabular-nums text-ink-500">14.03.2026</span>
+                <span className="font-mono text-xs text-content">{hall}</span>
+                <span className="min-w-0 flex-1 truncate text-content-muted">Занято · монтаж</span>
+                <span className="tabular-nums text-content-subtle">14.03.2026</span>
               </div>
             ))}
           </div>
-          <p className="mt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-3 text-xs leading-normal text-content-faint">
             Плотный режим — по умолчанию: 25 строк реестра видны без прокрутки на 1080p. Комфортный
             переключается пользователем и хранится в его настройках.
           </p>

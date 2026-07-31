@@ -1,41 +1,201 @@
 import {
-  colors,
+  navy,
+  obsidian,
+  beam,
+  signal,
+  ink,
+  danger,
+  success,
   fontFamily,
   fontSize,
   fontWeight,
   spacing,
   sizes,
   borderRadius,
-  boxShadow,
   zIndex,
   motion,
 } from './src/design/tokens.js'
 
-/** @type {import('tailwindcss').Config} */
+/**
+ * Цвет в системе делится на два слоя:
+ *
+ *  1. СЕМАНТИЧЕСКИЕ токены — var(--…), переключаются темой.
+ *     Компоненты используют только их: bg-surface, text-content,
+ *     border-hairline, bg-nav-raised, text-accent-fg, bg-status-*-soft.
+ *
+ *  2. СЫРЫЕ шкалы — статичные hex (navy, beam, ink, obsidian, signal…).
+ *     Только там, где нужен фиксированный оттенок независимо от темы:
+ *     графики, палитра на странице дизайн-системы, danger-кнопки.
+ *
+ * @type {import('tailwindcss').Config}
+ */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
+  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {
-      colors,
+      colors: {
+        /* ── Семантика: поверхности ── */
+        canvas: 'var(--canvas)',
+        surface: {
+          DEFAULT: 'var(--surface)',
+          sunken: 'var(--surface-sunken)',
+          muted: 'var(--surface-muted)',
+          inverse: 'var(--surface-inverse)',
+        },
+        /* ── Семантика: каркас ── */
+        nav: {
+          DEFAULT: 'var(--nav)',
+          raised: 'var(--nav-raised)',
+          sunken: 'var(--nav-sunken)',
+          hover: 'var(--nav-hover)',
+          active: 'var(--nav-active)',
+          fg: 'var(--nav-fg)',
+          muted: 'var(--nav-muted)',
+          subtle: 'var(--nav-subtle)',
+          faint: 'var(--nav-faint)',
+          line: 'var(--nav-line)',
+        },
+        /* ── Семантика: границы ── */
+        hairline: {
+          DEFAULT: 'var(--hairline)',
+          soft: 'var(--hairline-soft)',
+          strong: 'var(--hairline-strong)',
+        },
+        /* ── Семантика: текст ── */
+        content: {
+          DEFAULT: 'var(--content)',
+          muted: 'var(--content-muted)',
+          subtle: 'var(--content-subtle)',
+          faint: 'var(--content-faint)',
+          inverse: 'var(--content-inverse)',
+        },
+        /* ── Семантика: акцент-свет ── */
+        accent: {
+          DEFAULT: 'var(--accent)',
+          fg: 'var(--accent-fg)',
+          strong: 'var(--accent-strong)',
+          soft: 'var(--accent-soft)',
+          line: 'var(--accent-line)',
+        },
+        /* ── Семантика: primary ── */
+        primary: {
+          DEFAULT: 'var(--primary)',
+          hover: 'var(--primary-hover)',
+          active: 'var(--primary-active)',
+          line: 'var(--primary-line)',
+          fg: 'var(--primary-fg)',
+        },
+        overlay: 'var(--overlay)',
+        /* ── Семантика: статусы ── */
+        status: {
+          draft: {
+            base: 'var(--st-draft)',
+            soft: 'var(--st-draft-soft)',
+            border: 'var(--st-draft-line)',
+            text: 'var(--st-draft-fg)',
+          },
+          review: {
+            base: 'var(--st-review)',
+            soft: 'var(--st-review-soft)',
+            border: 'var(--st-review-line)',
+            text: 'var(--st-review-fg)',
+          },
+          confirmed: {
+            base: 'var(--st-confirmed)',
+            soft: 'var(--st-confirmed-soft)',
+            border: 'var(--st-confirmed-line)',
+            text: 'var(--st-confirmed-fg)',
+          },
+          conflict: {
+            base: 'var(--st-conflict)',
+            soft: 'var(--st-conflict-soft)',
+            border: 'var(--st-conflict-line)',
+            text: 'var(--st-conflict-fg)',
+          },
+          paid: {
+            base: 'var(--st-paid)',
+            soft: 'var(--st-paid-soft)',
+            border: 'var(--st-paid-line)',
+            text: 'var(--st-paid-fg)',
+          },
+          unpaid: {
+            base: 'var(--st-unpaid)',
+            soft: 'var(--st-unpaid-soft)',
+            border: 'var(--st-unpaid-line)',
+            text: 'var(--st-unpaid-fg)',
+          },
+          done: {
+            base: 'var(--st-done)',
+            soft: 'var(--st-done-soft)',
+            border: 'var(--st-done-line)',
+            text: 'var(--st-done-fg)',
+          },
+          void: {
+            base: 'var(--st-void)',
+            soft: 'var(--st-void-soft)',
+            border: 'var(--st-void-line)',
+            text: 'var(--st-void-fg)',
+          },
+        },
+        /* ── Сырые шкалы: фиксированный оттенок вне зависимости от темы ── */
+        navy,
+        obsidian,
+        beam,
+        signal,
+        ink,
+        danger,
+        success,
+      },
       fontFamily,
       fontSize,
       fontWeight,
       spacing: { ...spacing, ...sizes },
       width: sizes,
       height: sizes,
-      // Числовая шкала отступов в min/max-размерах: min-w-4, min-h-16 и т.п.
       minWidth: ({ theme }) => ({ ...theme('spacing'), ...sizes }),
       minHeight: ({ theme }) => ({ ...theme('spacing'), ...sizes }),
       maxWidth: ({ theme }) => ({ ...theme('spacing'), ...sizes }),
       borderRadius,
-      boxShadow,
-      zIndex,
       borderColor: {
-        DEFAULT: colors.hairline.DEFAULT,
+        DEFAULT: 'var(--hairline)',
       },
       ringColor: {
-        DEFAULT: colors.beam[400],
+        DEFAULT: 'var(--accent)',
       },
+      ringOffsetColor: {
+        DEFAULT: 'var(--surface)',
+      },
+      /* Тени — тоже семантика: тёмной теме нужны другие значения */
+      boxShadow: {
+        none: 'none',
+        xs: 'var(--shadow-xs)',
+        sm: 'var(--shadow-sm)',
+        DEFAULT: 'var(--shadow-base)',
+        md: 'var(--shadow-md)',
+        lg: 'var(--shadow-lg)',
+        xl: 'var(--shadow-xl)',
+        panel: 'var(--shadow-panel)',
+        bevel: 'var(--shadow-bevel)',
+        card: 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+        button: 'var(--shadow-button)',
+        'button-quiet': 'var(--shadow-button-quiet)',
+        plate: 'var(--shadow-plate)',
+        beam: '0 0 0 1px var(--accent-glow-soft), 0 0 12px 0 var(--accent-glow-soft)',
+        'beam-sm': '0 0 8px 0 var(--accent-glow-soft)',
+        'beam-lg': '0 0 0 1px var(--accent-glow), 0 0 24px -2px var(--accent-glow)',
+        'beam-inset': 'inset 0 0 0 1px var(--accent-glow-soft)',
+      },
+      backgroundImage: {
+        'surface-raised': 'var(--grad-surface)',
+        'surface-nav': 'var(--grad-nav)',
+        hero: 'var(--grad-hero)',
+        'beam-line': 'var(--grad-beam-line)',
+        'beam-line-soft': 'var(--grad-beam-line-soft)',
+        bloom: 'var(--bloom)',
+      },
+      zIndex,
       letterSpacing: {
         plate: '0.08em',
         label: '0.12em',
@@ -54,18 +214,6 @@ export default {
         accelerate: motion.easing.accelerate,
         out: motion.easing.decelerate,
       },
-      backgroundImage: {
-        /* Фрезерованная светлая поверхность */
-        'surface-raised': 'linear-gradient(180deg, #FFFFFF 0%, #FBFCFD 100%)',
-        /* Корпус прибора */
-        'surface-obsidian': 'linear-gradient(180deg, #0E1620 0%, #080D14 100%)',
-        'surface-obsidian-soft': 'linear-gradient(180deg, #16202C 0%, #0B1219 100%)',
-        /* Луч света вдоль кромки корпуса */
-        'beam-line':
-          'linear-gradient(90deg, transparent 0%, rgba(53,214,240,0.65) 22%, rgba(53,214,240,0.9) 50%, rgba(53,214,240,0.65) 78%, transparent 100%)',
-        'beam-line-soft':
-          'linear-gradient(90deg, transparent 0%, rgba(53,214,240,0.35) 30%, rgba(53,214,240,0.5) 50%, rgba(53,214,240,0.35) 70%, transparent 100%)',
-      },
       keyframes: {
         'fade-in': {
           from: { opacity: '0' },
@@ -83,28 +231,23 @@ export default {
           from: { transform: 'translateY(10px)', opacity: '0' },
           to: { transform: 'translateY(0)', opacity: '1' },
         },
-        /* Каскадное проявление строк и карточек */
         'reveal-up': {
           from: { opacity: '0', transform: 'translateY(6px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
-        /* Мерцание скелетона */
         shimmer: {
           '0%': { backgroundPosition: '-160% 0' },
           '100%': { backgroundPosition: '260% 0' },
         },
-        /* Проход света по кромке — однократно при появлении блока */
         'beam-sweep': {
           '0%': { transform: 'translateX(-100%)', opacity: '0' },
           '35%': { opacity: '1' },
           '100%': { transform: 'translateX(100%)', opacity: '0' },
         },
-        /* Дыхание индикатора: только для «требует внимания» */
         'pulse-beam': {
-          '0%, 100%': { opacity: '1', boxShadow: '0 0 6px 0 rgba(53,214,240,0.45)' },
-          '50%': { opacity: '0.55', boxShadow: '0 0 12px 0 rgba(53,214,240,0.15)' },
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
         },
-        /* Отрисовка кольцевой шкалы */
         'ring-draw': {
           from: { strokeDashoffset: 'var(--ring-circumference)' },
           to: { strokeDashoffset: 'var(--ring-offset)' },

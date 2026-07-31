@@ -131,8 +131,8 @@ export function DataTable({
     >
       {loading ? (
         <div>
-          <div className={cn('flex items-center border-b border-hairline bg-ink-50', d.head)}>
-            <span className="text-2xs font-semibold uppercase tracking-label text-ink-400">
+          <div className={cn('flex items-center border-b border-hairline bg-surface-sunken', d.head)}>
+            <span className="text-2xs font-semibold uppercase tracking-label text-content-faint">
               Загрузка данных
             </span>
           </div>
@@ -144,10 +144,10 @@ export function DataTable({
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left">
             <thead className={cn(stickyHeader && 'sticky top-0 z-sticky')}>
-              <tr className="bg-ink-50">
+              <tr className="bg-surface-sunken">
                 {statusKey ? <th className="w-rail p-0" aria-label="Статус" /> : null}
                 {selectable ? (
-                  <th className={cn('w-9 border-b border-hairline bg-ink-50', d.head)}>
+                  <th className={cn('w-9 border-b border-hairline bg-surface-sunken', d.head)}>
                     <Checkbox
                       checked={allSelected}
                       indeterminate={someSelected}
@@ -165,7 +165,7 @@ export function DataTable({
                       scope="col"
                       style={column.width ? { width: column.width } : undefined}
                       className={cn(
-                        'border-b border-hairline bg-ink-50 text-2xs font-semibold uppercase tracking-label text-ink-500',
+                        'border-b border-hairline bg-surface-sunken text-2xs font-semibold uppercase tracking-label text-content-subtle',
                         d.head,
                         align,
                         column.headClassName,
@@ -176,8 +176,8 @@ export function DataTable({
                           type="button"
                           onClick={() => toggleSort(column.key)}
                           className={cn(
-                            'focus-ring group -mx-1 inline-flex h-6 max-w-full items-center gap-1 rounded-sm px-1 transition-colors duration-fast hover:text-beam-700',
-                            isSorted && 'text-beam-700',
+                            'focus-ring group -mx-1 inline-flex h-6 max-w-full items-center gap-1 rounded-sm px-1 transition-colors duration-fast hover:text-accent-fg',
+                            isSorted && 'text-accent-fg',
                             column.align === 'right' && 'flex-row-reverse',
                           )}
                           aria-label={`Сортировать по «${column.header}»`}
@@ -189,8 +189,8 @@ export function DataTable({
                             className={cn(
                               'shrink-0 transition-opacity duration-fast',
                               isSorted
-                                ? 'text-beam-600 opacity-100'
-                                : 'text-ink-300 opacity-60 group-hover:opacity-100',
+                                ? 'text-accent opacity-100'
+                                : 'text-content-faint opacity-60 group-hover:opacity-100',
                             )}
                           />
                         </button>
@@ -223,7 +223,7 @@ export function DataTable({
                       onClick={onRowClick ? () => onRowClick(row) : undefined}
                       className={cn(
                         'group border-b border-hairline-soft transition-colors duration-fast last:border-b-0',
-                        isSelected ? 'bg-beam-50' : 'hover:bg-beam-50/50',
+                        isSelected ? 'bg-accent-soft' : 'hover:bg-surface-sunken',
                         onRowClick && 'cursor-pointer',
                         reveal && 'animate-reveal-up',
                       )}
@@ -271,7 +271,7 @@ export function DataTable({
                           className={cn(
                             d.row,
                             d.cell,
-                            'text-ink-800 tabular-nums',
+                            'text-content tabular-nums',
                             ALIGN[column.align] ?? ALIGN.left,
                             column.mono && 'font-mono',
                             column.nowrap && 'whitespace-nowrap',
@@ -313,7 +313,7 @@ export function TableCaption({ children, className }) {
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center gap-x-4 gap-y-1.5 px-1 pt-2.5 text-xs text-ink-500',
+        'flex flex-wrap items-center gap-x-4 gap-y-1.5 px-1 pt-2.5 text-xs text-content-subtle',
         className,
       )}
     >

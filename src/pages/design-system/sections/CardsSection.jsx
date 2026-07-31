@@ -126,7 +126,7 @@ export function CardsSection() {
               </div>
             </CardBody>
             <CardFooter>
-              <span className="text-xs text-ink-400">Изменён 12.02.2026 · Р. Жумабаев</span>
+              <span className="text-xs text-content-faint">Изменён 12.02.2026 · Р. Жумабаев</span>
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="sm">
                   Замечания
@@ -159,7 +159,7 @@ export function CardsSection() {
               </MetaGrid>
             </CardBody>
             <CardFooter>
-              <span className="text-xs text-ink-400">Требуется согласование</span>
+              <span className="text-xs text-content-faint">Требуется согласование</span>
               <Button variant="danger" size="sm" iconLeft="alert-triangle">
                 Разрешить
               </Button>
@@ -201,7 +201,7 @@ export function CardsSection() {
                 />
               </Card>
             ))}
-            <p className="text-xs leading-normal text-ink-400">
+            <p className="text-xs leading-normal text-content-faint">
               Карточка-кнопка открывает слайд-панель объекта, не уводя оператора из реестра.
             </p>
           </div>
@@ -255,7 +255,7 @@ export function CardsSection() {
         </div>
         <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <StatTile
-            tone="dark"
+
             label="На корпусе прибора"
             countTo={42}
             hint="предстоящих мероприятий"
@@ -263,7 +263,7 @@ export function CardsSection() {
             instrument={<Sparkline data={TREND_EVENTS} onDark />}
           />
           <StatTile
-            tone="dark"
+
             label="Конфликты брони"
             countTo={2}
             status="conflict"
@@ -284,11 +284,11 @@ export function CardsSection() {
           <HallPlate icon="lock" tone="outline">
             Закрытое
           </HallPlate>
-          <span className="rounded bg-navy-900 px-2 py-1.5">
+          <span className="rounded bg-nav px-2 py-1.5">
             <HallPlate tone="inverse">на тёмном</HallPlate>
           </span>
         </div>
-        <p className="mt-3 max-w-3xl text-xs leading-normal text-ink-400">
+        <p className="mt-3 max-w-3xl text-xs leading-normal text-content-faint">
           В табличке — только машинный идентификатор: код зала, номер договора, номер заявки, БИН.
           Названия и описания в табличку не попадают никогда — иначе она перестаёт работать как
           указатель.

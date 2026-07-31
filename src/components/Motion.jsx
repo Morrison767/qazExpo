@@ -105,7 +105,7 @@ export function RevealList({ children, stagger = motion.stagger, className }) {
  * Мерцание сообщает «процесс идёт». Форма скелетона повторяет форму
  * будущего содержимого, поэтому переход не вызывает скачка вёрстки.
  */
-export function Skeleton({ variant = 'line', width, height, onDark = false, className }) {
+export function Skeleton({ variant = 'line', width, height, className }) {
   const shapes = {
     line: 'h-3 rounded-sm',
     title: 'h-4 rounded-sm',
@@ -118,25 +118,19 @@ export function Skeleton({ variant = 'line', width, height, onDark = false, clas
   return (
     <span
       aria-hidden="true"
-      className={cn(
-        'block',
-        onDark ? 'shimmer-dark' : 'shimmer',
-        shapes[variant] ?? shapes.line,
-        className,
-      )}
+      className={cn('shimmer block', shapes[variant] ?? shapes.line, className)}
       style={{ width, height }}
     />
   )
 }
 
 /** Скелетон строки реестра — под геометрию DataTable */
-export function SkeletonRow({ columns = 6, onDark = false }) {
+export function SkeletonRow({ columns = 6 }) {
   return (
     <div className="flex h-row items-center gap-3 border-b border-hairline-soft px-3 last:border-b-0">
       {Array.from({ length: columns }).map((_, index) => (
         <Skeleton
           key={index}
-          onDark={onDark}
           className={index === 1 ? 'flex-1' : undefined}
           width={index === 1 ? undefined : index === 0 ? 56 : 72}
         />

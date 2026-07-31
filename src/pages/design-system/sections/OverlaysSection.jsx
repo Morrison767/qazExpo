@@ -41,7 +41,7 @@ export function OverlaysSection() {
               Конфликт брони
             </Button>
           </div>
-          <p className="mt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-3 text-xs leading-normal text-content-faint">
             Закрытие — крестик, клик по подложке, Escape. Прокрутка страницы под окном блокируется.
           </p>
         </DemoBlock>
@@ -147,7 +147,7 @@ export function OverlaysSection() {
           </>
         }
       >
-        <p className="text-base leading-normal text-ink-700">
+        <p className="text-base leading-normal text-content-muted">
           Договор перейдёт в статус «Расторгнуто», связанное мероприятие будет снято с календаря, а
           бронь зала МВЦ-П1 освободится с 06.04.2026.
         </p>

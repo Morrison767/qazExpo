@@ -5,33 +5,35 @@ import { Icon } from './Icon'
 /**
  * КНОПКИ.
  * Залитые получают верхний блик (shadow-button) — кромка читается как
- * фрезерованная, а не как плоский прямоугольник. Фокус — луч, не серое кольцо.
- * На корпусе прибора работают варианты *-dark.
+ * фрезерованная. Фокус — луч, не серое кольцо. Все варианты работают
+ * в обеих темах: цвета приходят из семантических токенов.
+ *
+ * Варианты *-nav — для кнопок внутри каркаса (топбар, шапка панели).
  */
 const VARIANTS = {
   primary:
-    'bg-navy-600 text-white border-navy-800 hover:bg-navy-500 active:bg-navy-700 shadow-button',
+    'bg-primary text-primary-fg border-primary-line hover:bg-primary-hover active:bg-primary-active shadow-button',
   secondary:
-    'bg-surface-raised text-ink-800 border-hairline-strong hover:border-ink-400 hover:bg-white active:bg-ink-50 shadow-button-light',
+    'bg-surface-raised text-content border-hairline-strong hover:border-content-faint active:bg-surface-muted shadow-button-quiet',
   danger:
     'bg-danger-600 text-white border-danger-800 hover:bg-danger-500 active:bg-danger-700 shadow-button',
   ghost:
-    'bg-transparent text-ink-600 border-transparent hover:bg-ink-100 hover:text-ink-900 active:bg-ink-200',
+    'bg-transparent text-content-muted border-transparent hover:bg-surface-muted hover:text-content active:bg-surface-sunken',
   subtle:
-    'bg-beam-50 text-beam-800 border-beam-200 hover:bg-beam-100 hover:border-beam-300 active:bg-beam-200',
-  link: 'bg-transparent text-beam-700 border-transparent underline-offset-2 hover:underline hover:text-beam-800 px-0',
+    'bg-accent-soft text-accent-strong border-accent-line hover:brightness-[0.97] active:brightness-95',
+  link: 'bg-transparent text-accent-fg border-transparent underline-offset-2 hover:underline hover:text-accent-strong px-0',
   /** Главный CTA сводных экранов: свет как призыв к действию */
-  beam: 'bg-beam-700 text-white border-beam-800 hover:bg-beam-600 active:bg-beam-800 shadow-button hover:shadow-beam',
-  /* ── На корпусе прибора ── */
-  'primary-dark':
-    'bg-beam-500 text-obsidian-950 border-beam-600 hover:bg-beam-400 active:bg-beam-600 shadow-button font-semibold',
-  'secondary-dark':
-    'bg-white/[0.06] text-obsidian-50 border-white/[0.12] hover:bg-white/[0.1] hover:border-white/20 active:bg-white/[0.14] shadow-button-dark',
-  'ghost-dark':
-    'bg-transparent text-obsidian-200 border-transparent hover:bg-white/[0.07] hover:text-white active:bg-white/[0.1]',
+  beam: 'bg-accent text-content-inverse border-transparent hover:shadow-beam active:brightness-95 shadow-button',
+  /* ── Внутри каркаса ── */
+  'primary-nav':
+    'bg-accent text-content-inverse border-transparent font-semibold hover:shadow-beam active:brightness-95 shadow-button',
+  'secondary-nav':
+    'bg-nav-hover text-nav-fg border-nav-line hover:border-hairline-strong active:brightness-95 shadow-button-quiet',
+  'ghost-nav':
+    'bg-transparent text-nav-subtle border-transparent hover:bg-nav-hover hover:text-nav-fg',
 }
 
-const DARK_VARIANTS = new Set(['primary-dark', 'secondary-dark', 'ghost-dark'])
+const NAV_VARIANTS = new Set(['primary-nav', 'secondary-nav', 'ghost-nav'])
 
 const SIZES = {
   sm: 'h-control-sm gap-1.5 rounded-sm px-2.5 text-xs',
@@ -71,7 +73,7 @@ export const Button = forwardRef(function Button(
       className={cn(
         'inline-flex select-none items-center justify-center whitespace-nowrap border font-medium transition-all duration-fast ease-decelerate',
         'disabled:pointer-events-none disabled:opacity-45 disabled:shadow-none',
-        DARK_VARIANTS.has(variant) ? 'focus-ring-dark' : 'focus-ring',
+        NAV_VARIANTS.has(variant) ? 'focus-ring-nav' : 'focus-ring',
         VARIANTS[variant] ?? VARIANTS.secondary,
         SIZES[size] ?? SIZES.md,
         block && 'w-full',
@@ -119,7 +121,7 @@ export const IconButton = forwardRef(function IconButton(
       className={cn(
         'inline-flex shrink-0 items-center justify-center border transition-all duration-fast ease-decelerate',
         'disabled:pointer-events-none disabled:opacity-45 disabled:shadow-none',
-        DARK_VARIANTS.has(variant) ? 'focus-ring-dark' : 'focus-ring',
+        NAV_VARIANTS.has(variant) ? 'focus-ring-nav' : 'focus-ring',
         VARIANTS[variant] ?? VARIANTS.ghost,
         ICON_BUTTON_SIZES[size] ?? ICON_BUTTON_SIZES.md,
         className,

@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1B3A6B" />
+    <meta name="theme-color" content="#1B3A6B" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#080D14" media="(prefers-color-scheme: dark)" />
     <title>QazExpoCongress — ИС учёта мероприятий</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,6 +13,19 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Тема ставится до первой отрисовки: иначе на секунду мигнёт светлая -->
+    <script>
+      ;(function () {
+        try {
+          var saved = localStorage.getItem('qec-theme')
+          var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          document.documentElement.setAttribute('data-theme', saved || system)
+        } catch (e) {
+          /* приватный режим — остаётся светлая тема по умолчанию */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -11,9 +11,9 @@ export function Section({ id, num, title, description, children }) {
           {num}
         </HallPlate>
         <div className="min-w-0">
-          <h2 className="text-2xl font-semibold leading-tight text-ink-900">{title}</h2>
+          <h2 className="text-2xl font-semibold leading-tight text-content">{title}</h2>
           {description ? (
-            <p className="mt-1 max-w-3xl text-md leading-normal text-ink-500">{description}</p>
+            <p className="mt-1 max-w-3xl text-md leading-normal text-content-subtle">{description}</p>
           ) : null}
         </div>
       </header>
@@ -32,9 +32,9 @@ export function DemoBlock({ title, note, children, className, bodyClassName, ton
       )}
     >
       {title || note ? (
-        <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline-soft bg-ink-25 px-4 py-2">
-          <h3 className="text-2xs font-semibold uppercase tracking-label text-ink-500">{title}</h3>
-          {note ? <p className="text-xs text-ink-400">{note}</p> : null}
+        <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-hairline-soft bg-surface-sunken px-4 py-2">
+          <h3 className="text-2xs font-semibold uppercase tracking-label text-content-subtle">{title}</h3>
+          {note ? <p className="text-xs text-content-faint">{note}</p> : null}
         </div>
       ) : null}
       <div
@@ -61,7 +61,7 @@ export function SpecTable({ head, rows }) {
             {head.map((cell) => (
               <th
                 key={cell}
-                className="h-7 border-b border-hairline px-2 text-2xs font-semibold uppercase tracking-label text-ink-400 first:pl-0"
+                className="h-7 border-b border-hairline px-2 text-2xs font-semibold uppercase tracking-label text-content-faint first:pl-0"
               >
                 {cell}
               </th>
@@ -75,8 +75,8 @@ export function SpecTable({ head, rows }) {
                 <td
                   key={cellIndex}
                   className={cn(
-                    'h-8 px-2 align-middle text-sm text-ink-700 first:pl-0',
-                    cellIndex === 0 && 'font-mono text-xs text-ink-900',
+                    'h-8 px-2 align-middle text-sm text-content-muted first:pl-0',
+                    cellIndex === 0 && 'font-mono text-xs text-content',
                   )}
                 >
                   {cell}
@@ -102,11 +102,11 @@ export function Swatch({ name, hex, label, onLight = true, size = 'md' }) {
         style={{ backgroundColor: hex }}
       />
       <div className="mt-1.5 min-w-0">
-        <p className="truncate text-xs font-medium text-ink-800">{name}</p>
-        <p className="font-mono text-2xs uppercase tracking-plate text-ink-400">{hex}</p>
-        {label ? <p className="mt-0.5 truncate text-2xs text-ink-400">{label}</p> : null}
+        <p className="truncate text-xs font-medium text-content">{name}</p>
+        <p className="font-mono text-2xs uppercase tracking-plate text-content-faint">{hex}</p>
+        {label ? <p className="mt-0.5 truncate text-2xs text-content-faint">{label}</p> : null}
         {onLight ? (
-          <p className="mt-0.5 font-mono text-2xs text-ink-300">
+          <p className="mt-0.5 font-mono text-2xs text-content-faint">
             {formatRatio(hex, '#FFFFFF')} · {wcagLevel(hex, '#FFFFFF')}
           </p>
         ) : null}
@@ -118,7 +118,7 @@ export function Swatch({ name, hex, label, onLight = true, size = 'md' }) {
 /** Подпись к примеру внутри демо-блока */
 export function DemoLabel({ children, className }) {
   return (
-    <p className={cn('mb-2 text-2xs font-semibold uppercase tracking-label text-ink-400', className)}>
+    <p className={cn('mb-2 text-2xs font-semibold uppercase tracking-label text-content-faint', className)}>
       {children}
     </p>
   )

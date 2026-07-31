@@ -28,10 +28,10 @@ export function TypographySection() {
     >
       <div className="grid gap-4 lg:grid-cols-2">
         <DemoBlock title="IBM Plex Sans" note="Интерфейс, 400 / 500 / 600 / 700">
-          <p className="text-3xl leading-tight text-ink-900">
+          <p className="text-3xl leading-tight text-content">
             Мероприятия на объектах Общества
           </p>
-          <p className="mt-2 text-md leading-normal text-ink-600">
+          <p className="mt-2 text-md leading-normal text-content-muted">
             Съешь же ещё этих мягких французских булок да выпей чаю. Қазақ әліпбиі: Әә Ғғ Ққ Ңң Өө
             Ұұ Үү Һһ Іі. The quick brown fox jumps over the lazy dog.
           </p>
@@ -43,8 +43,8 @@ export function TypographySection() {
               { w: 'font-bold', l: '700 Bold' },
             ].map((item) => (
               <div key={item.l}>
-                <p className={`text-lg text-ink-900 ${item.w}`}>Договор аренды</p>
-                <p className="mt-0.5 text-2xs uppercase tracking-label text-ink-400">{item.l}</p>
+                <p className={`text-lg text-content ${item.w}`}>Договор аренды</p>
+                <p className="mt-0.5 text-2xs uppercase tracking-label text-content-faint">{item.l}</p>
               </div>
             ))}
           </div>
@@ -58,10 +58,10 @@ export function TypographySection() {
             <HallPlate tone="muted">EV-0143</HallPlate>
             <HallPlate tone="signal">БИН 180440012345</HallPlate>
           </div>
-          <p className="mt-4 font-mono text-md text-ink-800">
+          <p className="mt-4 font-mono text-md text-content">
             0123456789 · 48 500 000 ₸ · 14.03.2026 · 09:30–18:00
           </p>
-          <p className="mt-3 border-t border-hairline-soft pt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-3 border-t border-hairline-soft pt-3 text-xs leading-normal text-content-faint">
             Моно применяется только к машинным данным. Названия мероприятий, арендаторов и
             комментарии — всегда Plex Sans.
           </p>
@@ -72,7 +72,7 @@ export function TypographySection() {
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
             <DemoLabel>Табличные (система)</DemoLabel>
-            <div className="space-y-0.5 text-right font-medium tabular-nums text-ink-900">
+            <div className="space-y-0.5 text-right font-medium tabular-nums text-content">
               <p>48 500 000 ₸</p>
               <p>126 000 000 ₸</p>
               <p>3 400 000 ₸</p>
@@ -82,7 +82,7 @@ export function TypographySection() {
           <div>
             <DemoLabel>Пропорциональные (не использовать)</DemoLabel>
             <div
-              className="space-y-0.5 text-right font-medium text-ink-400"
+              className="space-y-0.5 text-right font-medium text-content-faint"
               style={{ fontVariantNumeric: 'proportional-nums' }}
             >
               <p>48 500 000 ₸</p>
@@ -92,7 +92,7 @@ export function TypographySection() {
             </div>
           </div>
         </div>
-        <p className="mt-3 text-xs leading-normal text-ink-400">
+        <p className="mt-3 text-xs leading-normal text-content-faint">
           Разряды выстраиваются в колонку — суммы договоров и задолженности сравниваются взглядом,
           без чтения каждой цифры. Требование к реестрам и финансовым отчётам.
         </p>
@@ -105,12 +105,12 @@ export function TypographySection() {
               key={item.name}
               className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-hairline-soft pb-2.5 last:border-b-0 last:pb-0"
             >
-              <p className={`min-w-0 flex-1 text-ink-900 ${item.cls}`}>
+              <p className={`min-w-0 flex-1 text-content ${item.cls}`}>
                 Astana Finance Days 2026
               </p>
-              <p className="w-32 shrink-0 font-mono text-2xs text-ink-500">{item.name}</p>
-              <p className="w-24 shrink-0 font-mono text-2xs text-ink-400">{item.spec}</p>
-              <p className="w-56 shrink-0 text-xs text-ink-400">{item.use}</p>
+              <p className="w-32 shrink-0 font-mono text-2xs text-content-subtle">{item.name}</p>
+              <p className="w-24 shrink-0 font-mono text-2xs text-content-faint">{item.spec}</p>
+              <p className="w-56 shrink-0 text-xs text-content-faint">{item.use}</p>
             </div>
           ))}
         </div>

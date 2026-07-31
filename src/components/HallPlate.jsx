@@ -12,13 +12,13 @@ import { Icon } from './Icon'
  * Правило: в табличке — только машинный идентификатор. Никаких названий.
  */
 const TONES = {
-  navy: 'bg-navy-800 text-white border-navy-900/60 shadow-plate',
-  outline: 'bg-white text-navy-700 border-navy-200',
-  muted: 'bg-ink-100 text-ink-600 border-transparent',
+  navy: 'bg-primary text-primary-fg border-primary-line shadow-plate',
+  outline: 'bg-surface text-accent-fg border-accent-line',
+  muted: 'bg-surface-muted text-content-subtle border-transparent',
   signal: 'bg-signal-600 text-white border-signal-700/60 shadow-plate',
-  inverse: 'bg-white/[0.08] text-obsidian-50 border-white/[0.14]',
-  /** Подсвеченная табличка — бренд-блок, активный объект на корпусе */
-  beam: 'bg-obsidian-800 text-beam-300 border-beam-400/35',
+  inverse: 'bg-nav-hover text-nav-fg border-nav-line',
+  /** Подсвеченная табличка — бренд-блок, активный объект */
+  beam: 'bg-accent-soft text-accent-strong border-accent-line',
 }
 
 const SIZES = {

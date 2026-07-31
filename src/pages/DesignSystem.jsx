@@ -68,13 +68,13 @@ function useActiveSection(ids) {
 /** Опора дизайн-направления в hero-полосе */
 function Pillar({ label, title, description, children }) {
   return (
-    <div className="relative overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.035] p-3.5">
-      <p className="text-2xs font-semibold uppercase tracking-label text-obsidian-300">{label}</p>
+    <div className="relative overflow-hidden rounded-md border border-nav-line bg-nav-hover p-3.5">
+      <p className="text-2xs font-semibold uppercase tracking-label text-nav-subtle">{label}</p>
       <div className="mt-2 flex items-center gap-2.5">
         {children}
         <div className="min-w-0">
-          <p className="truncate text-base font-semibold text-obsidian-50">{title}</p>
-          <p className="mt-0.5 text-xs leading-snug text-obsidian-300">{description}</p>
+          <p className="truncate text-base font-semibold text-nav-fg">{title}</p>
+          <p className="mt-0.5 text-xs leading-snug text-nav-subtle">{description}</p>
         </div>
       </div>
     </div>
@@ -99,16 +99,16 @@ export default function DesignSystem() {
                 <HallPlate tone="beam" size="lg">
                   Шаг 0
                 </HallPlate>
-                <StatusBadge status="confirmed" label="Дизайн-система" variant="dark" />
-                <span className="text-2xs font-semibold uppercase tracking-label text-obsidian-300">
+                <StatusBadge status="confirmed" label="Дизайн-система" />
+                <span className="text-2xs font-semibold uppercase tracking-label text-nav-subtle">
                   v0.2 · приборная панель
                 </span>
               </div>
 
-              <h1 className="mt-3.5 text-4xl font-semibold leading-tight tracking-tight text-obsidian-50">
+              <h1 className="mt-3.5 text-4xl font-semibold leading-tight tracking-tight text-nav-fg">
                 Информационная система учёта мероприятий
               </h1>
-              <p className="mt-2 text-md leading-normal text-obsidian-200">
+              <p className="mt-2 text-md leading-normal text-nav-muted">
                 Токены и библиотека компонентов для объектов АО «НК «QazExpoCongress»:
                 Конгресс-центр, Международный выставочный центр, Alem.AI. Тёмный корпус несёт
                 навигацию и сводку, светлые поверхности — рабочие данные.
@@ -126,8 +126,8 @@ export default function DesignSystem() {
                 </Button>
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-white/[0.08] pt-3.5">
-                <span className="text-2xs font-semibold uppercase tracking-label text-obsidian-300">
+              <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-nav-line pt-3.5">
+                <span className="text-2xs font-semibold uppercase tracking-label text-nav-subtle">
                   8 статусных токенов
                 </span>
                 {['confirmed', 'review', 'conflict', 'unpaid', 'done'].map((key) => (
@@ -140,7 +140,7 @@ export default function DesignSystem() {
             <div className="flex min-w-0 flex-wrap items-start gap-5">
               <div className="flex flex-col items-center">
                 <RingGauge value={68} onDark size={112} stroke={7} sublabel="загрузка" />
-                <span className="mt-2 text-2xs uppercase tracking-label text-obsidian-300">
+                <span className="mt-2 text-2xs uppercase tracking-label text-nav-subtle">
                   комплекс · март
                 </span>
               </div>
@@ -162,10 +162,10 @@ export default function DesignSystem() {
               </div>
 
               <div className="w-52">
-                <p className="text-2xs font-semibold uppercase tracking-label text-obsidian-300">
+                <p className="text-2xs font-semibold uppercase tracking-label text-nav-subtle">
                   Сумма договоров
                 </p>
-                <p className="mt-1 text-3xl font-semibold leading-none tabular-nums text-obsidian-50">
+                <p className="mt-1 text-3xl font-semibold leading-none tabular-nums text-nav-fg">
                   <CountUp value={252100000} format={(v) => formatMoney(v)} />
                 </p>
                 <Sparkline data={TREND_REVENUE} width={208} height={44} onDark className="mt-2" />
@@ -177,22 +177,22 @@ export default function DesignSystem() {
           <div className="mt-6 grid gap-3 lg:grid-cols-3">
             <Pillar
               label="Корпус и структура"
-              title="obsidian-900 + navy-600"
+              title="Каркас + структура"
               description="Тёмная навигация, синие действия, холодная нейтральная шкала"
             >
               <span className="flex shrink-0 gap-1">
-                <span className="h-9 w-5 rounded-sm border border-white/10 bg-obsidian-900" />
-                <span className="h-9 w-5 rounded-sm border border-white/10 bg-navy-600" />
+                <span className="h-9 w-5 rounded-sm border border-nav-line bg-nav" />
+                <span className="h-9 w-5 rounded-sm border border-nav-line bg-primary" />
               </span>
             </Pillar>
 
             <Pillar
               label="Свет"
-              title="beam-400 · только линии"
+              title="Свет · только линии"
               description="Активный пункт, фокус, индикаторы, графики. Заливок нет"
             >
               <span
-                className="h-9 w-10 shrink-0 rounded-sm border border-beam-400/40 bg-obsidian-800"
+                className="h-9 w-10 shrink-0 rounded-sm border border-accent-line bg-nav-sunken"
                 style={{ boxShadow: 'inset 0 0 12px 0 rgba(53,214,240,0.35)' }}
               />
             </Pillar>
@@ -218,7 +218,7 @@ export default function DesignSystem() {
       {/* ═══ Липкая навигация по разделам ════════════════════ */}
       <nav
         aria-label="Разделы дизайн-системы"
-        className="sticky top-0 z-sticky border-b border-hairline bg-white/95 shadow-bevel backdrop-blur"
+        className="sticky top-0 z-sticky border-b border-hairline bg-surface/95 shadow-bevel backdrop-blur"
       >
         <div className="no-scrollbar flex items-center gap-1 overflow-x-auto px-5 py-2">
           {SECTIONS.map((section) => (
@@ -229,14 +229,14 @@ export default function DesignSystem() {
               className={cn(
                 'focus-ring relative inline-flex h-7 shrink-0 items-center gap-1.5 rounded border px-2 text-xs font-medium transition-all duration-fast',
                 active === section.id
-                  ? 'border-beam-300 bg-beam-50 text-beam-800 shadow-beam-sm'
-                  : 'border-transparent text-ink-500 hover:bg-ink-100 hover:text-ink-900',
+                  ? 'border-accent-line bg-accent-soft text-accent-strong shadow-beam-sm'
+                  : 'border-transparent text-content-subtle hover:bg-surface-muted hover:text-content',
               )}
             >
               <span
                 className={cn(
                   'font-mono text-2xs',
-                  active === section.id ? 'text-beam-600' : 'text-ink-300',
+                  active === section.id ? 'text-accent' : 'text-content-faint',
                 )}
               >
                 {section.num}
@@ -244,7 +244,7 @@ export default function DesignSystem() {
               {section.label}
             </button>
           ))}
-          <span className="ml-auto hidden shrink-0 items-center gap-1.5 pl-4 text-2xs text-ink-400 xl:flex">
+          <span className="ml-auto hidden shrink-0 items-center gap-1.5 pl-4 text-2xs text-content-faint xl:flex">
             <Icon name="info" size={11} />
             Проверка визуальной консистентности
           </span>
@@ -269,22 +269,22 @@ export default function DesignSystem() {
 
         {/* ═══ Итог ═════════════════════════════════════════ */}
         <section className="pt-9">
-          <div className="on-obsidian relative overflow-hidden rounded-md border border-obsidian-600/70 bg-surface-obsidian shadow-card-dark">
+          <div className="on-nav relative overflow-hidden rounded-md border border-nav-line bg-surface-nav shadow-card">
             <span aria-hidden="true" className="dot-grid absolute inset-0 opacity-60" />
             <span aria-hidden="true" className="bloom-beam absolute inset-0" />
             <span aria-hidden="true" className="beam-edge-soft absolute inset-x-0 top-0" />
             <div className="relative p-5">
               <div className="flex flex-wrap items-center gap-2">
                 <HallPlate tone="beam">Шаг 0</HallPlate>
-                <StatusBadge status="confirmed" label="Дизайн-система готова" variant="dark" />
+                <StatusBadge status="confirmed" label="Дизайн-система готова" />
               </div>
-              <h2 className="mt-2.5 text-xl font-semibold text-obsidian-50">Что дальше</h2>
-              <p className="mt-1 max-w-3xl text-base leading-normal text-obsidian-200">
+              <h2 className="mt-2.5 text-xl font-semibold text-nav-fg">Что дальше</h2>
+              <p className="mt-1 max-w-3xl text-base leading-normal text-nav-muted">
                 Токены, палитра статусов, слой света и глубины, инструменты визуализации и
                 библиотека компонентов закрыты. Следующие шаги собираются из этих блоков без новых
                 визуальных решений.
               </p>
-              <ul className="mt-3.5 grid gap-1.5 text-base text-obsidian-100 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="mt-3.5 grid gap-1.5 text-base text-nav-muted sm:grid-cols-2 lg:grid-cols-3">
                 {[
                   'Дашборд руководителя',
                   'Календарь занятости помещений',
@@ -294,7 +294,7 @@ export default function DesignSystem() {
                   'Личный кабинет арендатора',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-1.5">
-                    <Icon name="chevron-right" size={12} className="text-beam-400" />
+                    <Icon name="chevron-right" size={12} className="text-accent" />
                     {item}
                   </li>
                 ))}

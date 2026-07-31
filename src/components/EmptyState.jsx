@@ -10,14 +10,14 @@ import { Icon } from './Icon'
 const TONES = {
   default: {
     icon: 'inbox',
-    iconClass: 'text-beam-700 bg-beam-50 border-beam-200 shadow-beam-sm',
+    iconClass: 'text-accent-fg bg-accent-soft border-accent-line shadow-beam-sm',
   },
-  search: { icon: 'search', iconClass: 'text-ink-400 bg-ink-50 border-hairline shadow-bevel' },
+  search: { icon: 'search', iconClass: 'text-content-faint bg-surface-sunken border-hairline shadow-bevel' },
   error: {
     icon: 'alert-triangle',
     iconClass: 'text-danger-600 bg-danger-50 border-danger-200',
   },
-  locked: { icon: 'lock', iconClass: 'text-ink-400 bg-ink-50 border-hairline shadow-bevel' },
+  locked: { icon: 'lock', iconClass: 'text-content-faint bg-surface-sunken border-hairline shadow-bevel' },
 }
 
 const SIZES = {
@@ -46,7 +46,7 @@ export function EmptyState({
       className={cn(
         'flex flex-col items-center justify-center text-center',
         grid && 'floorplan-grid',
-        bordered && 'rounded-md border border-dashed border-hairline-strong bg-white',
+        bordered && 'rounded-md border border-dashed border-hairline-strong bg-surface',
         s.wrap,
         s.gap,
         className,
@@ -62,9 +62,9 @@ export function EmptyState({
         <Icon name={icon ?? t.icon} size={s.iconSize} strokeWidth={1.5} />
       </div>
       <div className="max-w-md">
-        <p className={cn('font-semibold text-ink-900', s.title)}>{title}</p>
+        <p className={cn('font-semibold text-content', s.title)}>{title}</p>
         {description ? (
-          <p className="mt-1 text-base leading-normal text-ink-500">{description}</p>
+          <p className="mt-1 text-base leading-normal text-content-subtle">{description}</p>
         ) : null}
       </div>
       {action || secondaryAction ? (

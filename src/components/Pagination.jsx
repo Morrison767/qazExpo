@@ -32,23 +32,23 @@ export function Pagination({
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center justify-between gap-3 border border-hairline bg-white px-3 py-2',
+        'flex flex-wrap items-center justify-between gap-3 border border-hairline bg-surface px-3 py-2',
         attached ? 'rounded-b-md border-t-0' : 'rounded-md',
         className,
       )}
     >
       <div className="flex items-center gap-3">
-        <p className="text-xs tabular-nums text-ink-500">
+        <p className="text-xs tabular-nums text-content-subtle">
           Показано{' '}
-          <span className="font-semibold text-ink-800">
+          <span className="font-semibold text-content">
             {formatNumber(from)}–{formatNumber(to)}
           </span>{' '}
-          из <span className="font-semibold text-ink-800">{formatNumber(total)}</span>{' '}
+          из <span className="font-semibold text-content">{formatNumber(total)}</span>{' '}
           {plural(total, entityForms)}
         </p>
         {onPageSizeChange ? (
           <div className="hidden items-center gap-1.5 sm:flex">
-            <span className="text-xs text-ink-400">на странице</span>
+            <span className="text-xs text-content-faint">на странице</span>
             <Select
               size="sm"
               value={pageSize}
@@ -72,7 +72,7 @@ export function Pagination({
           item === '…' ? (
             <span
               key={`gap-${index}`}
-              className="px-1 text-xs text-ink-300"
+              className="px-1 text-xs text-content-faint"
               aria-hidden="true"
             >
               …
@@ -86,8 +86,8 @@ export function Pagination({
               className={cn(
                 'focus-ring h-control-sm min-w-control-sm rounded-sm border px-1.5 text-xs font-medium tabular-nums transition-colors duration-fast',
                 item === page
-                  ? 'border-navy-700 bg-navy-600 text-white'
-                  : 'border-transparent text-ink-600 hover:bg-ink-100 hover:text-ink-900',
+                  ? 'border-primary-line bg-primary text-white'
+                  : 'border-transparent text-content-muted hover:bg-surface-muted hover:text-content',
               )}
             >
               {item}

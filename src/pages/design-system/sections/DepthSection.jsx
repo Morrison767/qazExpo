@@ -35,8 +35,8 @@ export function DepthSection() {
           <div>
             <DemoLabel>Рабочая поверхность</DemoLabel>
             <div className="rounded-md border border-hairline bg-surface-raised p-4 shadow-card">
-              <p className="text-base font-semibold text-ink-900">surface-raised</p>
-              <p className="mt-1 text-xs leading-normal text-ink-500">
+              <p className="text-base font-semibold text-content">surface-raised</p>
+              <p className="mt-1 text-xs leading-normal text-content-subtle">
                 Микроградиент белый → #FBFCFD, фаска-блик 1px сверху, ambient-тень. Реестры,
                 формы, карточки объектов.
               </p>
@@ -45,7 +45,7 @@ export function DepthSection() {
 
           <div>
             <DemoLabel>Корпус прибора</DemoLabel>
-            <div className="on-obsidian relative overflow-hidden rounded-md border border-obsidian-600/70 bg-surface-obsidian p-4 shadow-card-dark">
+            <div className="on-nav relative overflow-hidden rounded-md border border-nav-line bg-surface-nav p-4 shadow-card">
               <span
                 aria-hidden="true"
                 className="dot-grid pointer-events-none absolute inset-0 opacity-70"
@@ -55,8 +55,8 @@ export function DepthSection() {
                 className="bloom-beam pointer-events-none absolute inset-0"
               />
               <div className="relative">
-                <p className="text-base font-semibold text-obsidian-50">surface-obsidian</p>
-                <p className="mt-1 text-xs leading-normal text-obsidian-200">
+                <p className="text-base font-semibold text-nav-fg">surface-obsidian</p>
+                <p className="mt-1 text-xs leading-normal text-nav-muted">
                   Точечная сетка, радиальное свечение из угла, внутренний блик. Навигация,
                   сводки, шапки панелей.
                 </p>
@@ -66,9 +66,9 @@ export function DepthSection() {
 
           <div>
             <DemoLabel>Плоско — так больше не делаем</DemoLabel>
-            <div className="rounded-md border border-hairline bg-white p-4">
-              <p className="text-base font-semibold text-ink-900">flat</p>
-              <p className="mt-1 text-xs leading-normal text-ink-500">
+            <div className="rounded-md border border-hairline bg-surface p-4">
+              <p className="text-base font-semibold text-content">flat</p>
+              <p className="mt-1 text-xs leading-normal text-content-subtle">
                 Один тон, одна линия, нет блика и тени. Сравните кромки: разница читается даже
                 на превью в 240px.
               </p>
@@ -81,10 +81,10 @@ export function DepthSection() {
       <div className="grid gap-4 lg:grid-cols-2">
         <DemoBlock title="Свет как линия" note="Заливок акцентом в системе нет">
           <DemoLabel>Кромка корпуса</DemoLabel>
-          <div className="on-obsidian relative overflow-hidden rounded-md bg-surface-obsidian p-4">
+          <div className="on-nav relative overflow-hidden rounded-md bg-surface-nav p-4">
             <span aria-hidden="true" className="dot-grid absolute inset-0 opacity-60" />
             <div className="relative flex items-center justify-between gap-3">
-              <span className="text-base text-obsidian-100">Топбар / шапка панели</span>
+              <span className="text-base text-nav-muted">Топбар / шапка панели</span>
               <HallPlate tone="beam">КЦ-А1</HallPlate>
             </div>
             <span aria-hidden="true" className="beam-edge absolute inset-x-0 bottom-0" />
@@ -100,11 +100,11 @@ export function DepthSection() {
             ].map(([cls, use]) => (
               <div key={cls}>
                 <div
-                  className={`flex h-12 items-center justify-center rounded-md border border-beam-200 bg-white ${cls}`}
+                  className={`flex h-12 items-center justify-center rounded-md border border-accent-line bg-surface ${cls}`}
                 >
-                  <span className="font-mono text-2xs text-beam-800">{cls}</span>
+                  <span className="font-mono text-2xs text-accent-strong">{cls}</span>
                 </div>
-                <p className="mt-1 text-2xs leading-snug text-ink-400">{use}</p>
+                <p className="mt-1 text-2xs leading-snug text-content-faint">{use}</p>
               </div>
             ))}
           </div>
@@ -114,7 +114,7 @@ export function DepthSection() {
             <Button variant="primary">Tab сюда</Button>
             <Button variant="secondary">и сюда</Button>
             <Input placeholder="и в поле" className="w-40" />
-            <span className="text-xs text-ink-400">нажмите Tab</span>
+            <span className="text-xs text-content-faint">нажмите Tab</span>
           </div>
         </DemoBlock>
 
@@ -127,7 +127,7 @@ export function DepthSection() {
               >
                 <StatusRail status={key} />
                 <div className="flex items-center justify-between gap-3 px-3.5 py-2.5">
-                  <span className="truncate text-base text-ink-800">
+                  <span className="truncate text-base text-content">
                     Строка реестра со статусом
                   </span>
                   <StatusBadge status={key} size="sm" />
@@ -137,22 +137,22 @@ export function DepthSection() {
           </div>
 
           <DemoLabel className="mt-4">На корпусе</DemoLabel>
-          <div className="on-obsidian space-y-2 rounded-md bg-surface-obsidian p-3">
+          <div className="on-nav space-y-2 rounded-md bg-surface-nav p-3">
             {['confirmed', 'conflict'].map((key) => (
               <div
                 key={key}
-                className="relative overflow-hidden rounded border border-white/[0.08] bg-white/[0.04] pl-rail"
+                className="relative overflow-hidden rounded border border-nav-line bg-nav-hover pl-rail"
               >
                 <StatusRail status={key} />
                 <div className="flex items-center justify-between gap-3 px-3 py-2">
-                  <span className="truncate text-base text-obsidian-100">Элемент сводки</span>
-                  <StatusBadge status={key} size="sm" variant="dark" />
+                  <span className="truncate text-base text-nav-muted">Элемент сводки</span>
+                  <StatusBadge status={key} size="sm" />
                 </div>
               </div>
             ))}
           </div>
 
-          <p className="mt-3 text-xs leading-normal text-ink-400">
+          <p className="mt-3 text-xs leading-normal text-content-faint">
             «Конфликт» — единственный статус с диагональной штриховкой вместо ровного свечения:
             пересечение брони должно кричать даже в ч/б печати.
           </p>
@@ -178,17 +178,17 @@ export function DepthSection() {
           {/* Досчёт */}
           <div className="rounded-md border border-hairline bg-surface-raised p-3.5 shadow-card">
             <DemoLabel>Досчёт величины</DemoLabel>
-            <p className="text-6xl font-semibold leading-none tabular-nums text-ink-900">
+            <p className="text-6xl font-semibold leading-none tabular-nums text-content">
               <CountUp value={252} />
             </p>
-            <p className="mt-1.5 text-base text-ink-500">
+            <p className="mt-1.5 text-base text-content-subtle">
               млн ₸ · сумма договоров
             </p>
             <div className="mt-3 border-t border-hairline-soft pt-2.5">
-              <p className="text-2xl font-semibold tabular-nums text-beam-700">
+              <p className="text-2xl font-semibold tabular-nums text-accent-fg">
                 <CountUp value={48500000} format={(v) => formatMoney(v)} />
               </p>
-              <p className="mt-0.5 text-xs text-ink-400">
+              <p className="mt-0.5 text-xs text-content-faint">
                 Величина набирается — 126 млн «весит» больше, чем 3,4 млн
               </p>
             </div>
@@ -200,9 +200,9 @@ export function DepthSection() {
             <div className="space-y-1.5">
               {['EV-0142', 'EV-0143', 'EV-0144', 'EV-0145', 'EV-0139'].map((id, index) => (
                 <Reveal key={id} index={index}>
-                  <div className="flex items-center gap-2 rounded border border-hairline bg-white px-2 py-1.5">
+                  <div className="flex items-center gap-2 rounded border border-hairline bg-surface px-2 py-1.5">
                     <HallPlate tone="muted">{id}</HallPlate>
-                    <span className="min-w-0 flex-1 truncate text-xs text-ink-600">
+                    <span className="min-w-0 flex-1 truncate text-xs text-content-muted">
                       Строка реестра
                     </span>
                     <StatusDot status="confirmed" size={7} />
@@ -210,7 +210,7 @@ export function DepthSection() {
                 </Reveal>
               ))}
             </div>
-            <p className="mt-2.5 text-xs leading-normal text-ink-400">
+            <p className="mt-2.5 text-xs leading-normal text-content-faint">
               Взгляд получает порядок чтения сверху вниз вместо одномоментной вспышки.
             </p>
           </div>
@@ -231,11 +231,11 @@ export function DepthSection() {
               </div>
             ) : (
               <div className="space-y-2">
-                <p className="text-4xl font-semibold leading-none tabular-nums text-ink-900">
+                <p className="text-4xl font-semibold leading-none tabular-nums text-content">
                   <CountUp value={68} />
-                  <span className="ml-1 text-base font-medium text-ink-500">%</span>
+                  <span className="ml-1 text-base font-medium text-content-subtle">%</span>
                 </p>
-                <p className="text-xs leading-normal text-ink-500">
+                <p className="text-xs leading-normal text-content-subtle">
                   Загрузка Конгресс-центра за март
                 </p>
                 <div className="flex gap-2 pt-1">
@@ -254,11 +254,11 @@ export function DepthSection() {
           <div className="rounded-md border border-hairline bg-surface-raised p-3.5 shadow-card">
             <DemoLabel>Пружина — панели и тумблеры</DemoLabel>
             <div className="flex items-center gap-3">
-              <div className="animate-slide-in-right rounded border border-beam-200 bg-beam-50 px-3 py-2 text-base text-beam-800">
+              <div className="animate-slide-in-right rounded border border-accent-line bg-accent-soft px-3 py-2 text-base text-accent-strong">
                 Слайд-панель выезжает с лёгким перелётом
               </div>
             </div>
-            <p className="mt-2 text-xs leading-normal text-ink-400">
+            <p className="mt-2 text-xs leading-normal text-content-faint">
               Кривая <span className="font-mono">ease-spring</span> — у панели появляется масса.
               Линейный slide читается как «картинка сдвинулась».
             </p>
@@ -267,12 +267,12 @@ export function DepthSection() {
             <DemoLabel>Пульс — только «требует действия»</DemoLabel>
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-2">
-                <span className="h-2 w-2 animate-pulse-beam rounded-full bg-beam-500" />
-                <span className="text-base text-ink-700">2 конфликта брони</span>
+                <span className="h-2 w-2 animate-pulse-beam rounded-full bg-accent-soft0" />
+                <span className="text-base text-content-muted">2 конфликта брони</span>
               </span>
               <IconButton icon="bell" label="Уведомления" variant="subtle" />
             </div>
-            <p className="mt-2 text-xs leading-normal text-ink-400">
+            <p className="mt-2 text-xs leading-normal text-content-faint">
               Пульсация — дорогой приём. В системе он закреплён за состояниями, требующими
               решения человека, и нигде больше.
             </p>
@@ -300,7 +300,7 @@ export function DepthSection() {
             </CardBody>
           </Card>
 
-          <Card status="review" tone="dark" sweep>
+          <Card status="review" sweep>
             <CardHeader
               plate="EV-0143"
               title="KazBuild / Aquatherm Astana"
@@ -324,11 +324,11 @@ export function DepthSection() {
           head={['Токен', 'Значение', 'Применение']}
           rows={[
             ['shadow-card', 'граница + фаска + ambient', 'Все карточки и таблицы рабочей поверхности'],
-            ['shadow-card-dark', 'тень + внутренний блик', 'Блоки на корпусе прибора'],
+            ['shadow-card', 'тень + внутренний блик', 'Блоки на корпусе прибора'],
             ['shadow-bevel', 'inset 0 1px 0 rgba(255,255,255,.85)', 'Липкие панели, футеры, тулбары'],
             ['shadow-beam-sm / beam / beam-lg', 'свечение акцента', 'Фокус, активный объект, CTA'],
             ['bg-surface-raised', 'градиент #FFF → #FBFCFD', 'Рабочая поверхность'],
-            ['bg-surface-obsidian', 'градиент #0E1620 → #080D14', 'Корпус прибора'],
+            ['bg-surface-nav', 'градиент #0E1620 → #080D14', 'Корпус прибора'],
             ['dot-grid / bloom-beam', 'фактура корпуса', 'Сайдбар, топбар, hero-полоса'],
             ['ease-decelerate', 'cubic-bezier(.16,1,.3,1)', 'Появление, каскад, рост шкал'],
             ['ease-spring', 'cubic-bezier(.34,1.4,.64,1)', 'Панели, поповеры, тумблеры'],
@@ -337,7 +337,7 @@ export function DepthSection() {
             ['animate-pulse-beam', '2.4s ease-in-out', 'Только «требует действия»'],
           ]}
         />
-        <p className="mt-3 max-w-3xl text-xs leading-normal text-ink-400">
+        <p className="mt-3 max-w-3xl text-xs leading-normal text-content-faint">
           Вся анимация выключается системной настройкой{' '}
           <span className="font-mono">prefers-reduced-motion</span> — включая досчёт чисел и
           каскад строк.

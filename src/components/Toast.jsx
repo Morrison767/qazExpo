@@ -33,9 +33,9 @@ const KINDS = {
   },
   info: {
     icon: 'info',
-    rail: 'bg-beam-600',
+    rail: 'bg-accent',
     glow: 'rgba(53, 214, 240, 0.55)',
-    iconColor: 'text-beam-700',
+    iconColor: 'text-accent-fg',
     title: 'Информация',
   },
 }
@@ -129,11 +129,11 @@ export function Toast({ kind = 'info', title, description, action, onDismiss, cl
       <div className="flex items-start gap-2.5 px-3 py-2.5">
         <Icon name={meta.icon} size={15} strokeWidth={1.8} className={cn('mt-px', meta.iconColor)} />
         <div className="min-w-0 flex-1">
-          <p className="text-base font-semibold leading-snug text-ink-900">
+          <p className="text-base font-semibold leading-snug text-content">
             {title ?? meta.title}
           </p>
           {description ? (
-            <p className="mt-0.5 text-xs leading-normal text-ink-500">{description}</p>
+            <p className="mt-0.5 text-xs leading-normal text-content-subtle">{description}</p>
           ) : null}
           {action ? <div className="mt-2 flex items-center gap-2">{action}</div> : null}
         </div>
